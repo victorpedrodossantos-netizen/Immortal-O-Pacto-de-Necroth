@@ -35,6 +35,12 @@ func setup_from_soul(data: SubjugatedSoulData, master: Node2D) -> void:
 		attack_cooldown = 0.8
 		move_speed *= 1.25
 	
+	if data.is_group_captain or data.soul_class == SubjugatedSoulData.SoulClass.COMANDANTE:
+		max_health *= 1.4
+		current_health = max_health
+		attack_power *= 1.3
+		defense += 5.0
+	
 	set_commander_master(master)
 	_update_appearance()
 
@@ -46,19 +52,31 @@ func _update_appearance() -> void:
 	if not visual_root or not soul_data:
 		return
 	
+	var is_cap: bool = soul_data.is_group_captain or soul_data.soul_class == SubjugatedSoulData.SoulClass.COMANDANTE
+	if is_cap:
+		visual_root.scale = Vector2(1.3, 1.3)
+	else:
+		visual_root.scale = Vector2(1.0, 1.0)
+	
 	if hp_label:
-		hp_label.text = soul_data.soldier_name
+		if is_cap:
+			hp_label.text = "👑 %s" % soul_data.soldier_name
+		else:
+			hp_label.text = soul_data.soldier_name
 	
 	if aura_visual:
-		match soul_data.soul_class:
-			SubjugatedSoulData.SoulClass.TROPA_CHOQUE:
-				aura_visual.modulate = Color(0.2, 0.7, 1.0, 0.7) # Azul blindado
-			SubjugatedSoulData.SoulClass.FLANQUEADOR:
-				aura_visual.modulate = Color(0.8, 0.2, 0.9, 0.7) # Roxo furtivo
-			SubjugatedSoulData.SoulClass.SUPORTE_DISTANCIA:
-				aura_visual.modulate = Color(0.145, 0.886, 0.596, 0.7) # Verde éter
-			_:
-				aura_visual.modulate = Color(0.9, 0.9, 0.9, 0.6)
+		if is_cap:
+			aura_visual.modulate = Color(1.0, 0.84, 0.2, 0.95) # Dourado régio de Capitão
+		else:
+			match soul_data.soul_class:
+				SubjugatedSoulData.SoulClass.TROPA_CHOQUE:
+					aura_visual.modulate = Color(0.2, 0.7, 1.0, 0.7) # Azul blindado
+				SubjugatedSoulData.SoulClass.FLANQUEADOR:
+					aura_visual.modulate = Color(0.8, 0.2, 0.9, 0.7) # Roxo furtivo
+				SubjugatedSoulData.SoulClass.SUPORTE_DISTANCIA:
+					aura_visual.modulate = Color(0.145, 0.886, 0.596, 0.7) # Verde éter
+				_:
+					aura_visual.modulate = Color(0.9, 0.9, 0.9, 0.6)
 
 func _process_servant_tactics(delta: float) -> void:
 	if attack_timer > 0.0:

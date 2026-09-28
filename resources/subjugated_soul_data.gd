@@ -30,14 +30,21 @@ enum SacrificeBuffType {
 @export var lore_description: String = "Guerreiro que jurou lealdade eterna sob a lâmina da Foice de Necroth."
 @export var is_summoned: bool = false
 @export var assigned_to_guardian: bool = false
+@export var assigned_group: int = 0 ## 0 = Livre, 1 = Grupo 1, 2 = Grupo 2
+@export var is_group_captain: bool = false ## Se é o Capitão Líder do seu grupo
 
 func get_class_name_string() -> String:
+	var base_str: String = ""
 	match soul_class:
-		SoulClass.TROPA_CHOQUE: return "Tropa de Choque (Escudo)"
-		SoulClass.FLANQUEADOR: return "Flanqueador Ágil (Adagas)"
-		SoulClass.SUPORTE_DISTANCIA: return "Taumaturgo (Mágico)"
-		SoulClass.COMANDANTE: return "Comandante Espectral"
-		_: return "Guerreiro"
+		SoulClass.TROPA_CHOQUE: base_str = "Tropa de Choque (Escudo)"
+		SoulClass.FLANQUEADOR: base_str = "Flanqueador Ágil (Adagas)"
+		SoulClass.SUPORTE_DISTANCIA: base_str = "Taumaturgo (Mágico)"
+		SoulClass.COMANDANTE: base_str = "Comandante Espectral"
+		_: base_str = "Guerreiro"
+	
+	if is_group_captain:
+		return "👑 Capitão de Esquadrão (%s)" % base_str
+	return base_str
 
 func get_sacrifice_description() -> String:
 	match sacrifice_buff:

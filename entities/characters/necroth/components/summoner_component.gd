@@ -14,14 +14,29 @@ signal subjugated_souls_updated
 @export var codex: CodexResource
 @export var carrasco_scene: PackedScene
 @export var generic_servant_scene: PackedScene
-@export var max_field_servants: int = 3
+@export var max_field_servants: int = 12
 
 var active_guardian: Node2D = null
 var active_servants: Array[Node2D] = []
 var subjugated_souls: Array[SubjugatedSoulData] = []
 
-var quick_slot_1: SubjugatedSoulData = null
-var quick_slot_2: SubjugatedSoulData = null
+# Grupos de Esquadrão (Capitão + até 5 membros = máx 6 por grupo)
+var group_1_captain: SubjugatedSoulData = null
+var group_1_members: Array[SubjugatedSoulData] = []
+var group_2_captain: SubjugatedSoulData = null
+var group_2_members: Array[SubjugatedSoulData] = []
+
+var quick_slot_1: SubjugatedSoulData:
+	get:
+		return group_1_captain if group_1_captain else (group_1_members[0] if not group_1_members.is_empty() else null)
+	set(val):
+		if val: assign_soul_to_group(val, 1)
+
+var quick_slot_2: SubjugatedSoulData:
+	get:
+		return group_2_captain if group_2_captain else (group_2_members[0] if not group_2_members.is_empty() else null)
+	set(val):
+		if val: assign_soul_to_group(val, 2)
 
 func _ready() -> void:
 	if not codex:
@@ -37,48 +52,215 @@ func _seed_initial_subjugated_souls() -> void:
 	if not subjugated_souls.is_empty():
 		return
 	
-	# Alma 1: Guerreiro de Choque
+	# Alma 1: Guerreiro de Choque promovido a Capitão do Grupo 1
 	var s1: SubjugatedSoulData = SubjugatedSoulData.new()
 	s1.id = "gareth_choque"
 	s1.soldier_name = "Gareth, O Rompe-Escudos"
-	s1.soul_class = SubjugatedSoulData.SoulClass.TROPA_CHOQUE
+	s1.soul_class = SubjugatedSoulData.SoulClass.COMANDANTE
 	s1.faction = GameEnums.Faction.FENDIDOS_DE_FERRO
-	s1.max_health = 180.0
-	s1.attack_damage = 24.0
-	s1.move_speed = 175.0
+	s1.max_health = 240.0
+	s1.attack_damage = 28.0
+	s1.move_speed = 180.0
 	s1.sacrifice_buff = SubjugatedSoulData.SacrificeBuffType.COURAÇA_FERRO
-	s1.lore_description = "Guardião veterano que protege seu mestre com barreiras de ferro e cinzas."
+	s1.lore_description = "Capitão veterano com aura defensiva implacável e postura de comando."
+	s1.assigned_group = 1
+	s1.is_group_captain = true
 	subjugated_souls.append(s1)
-	quick_slot_1 = s1
+	group_1_captain = s1
 	
-	# Alma 2: Flanqueador Ágil
+	# Alma 2: Flanqueador Ágil alocado no Grupo 1
 	var s2: SubjugatedSoulData = SubjugatedSoulData.new()
 	s2.id = "kael_flanqueador"
 	s2.soldier_name = "Kael, Lâmina Espectral"
 	s2.soul_class = SubjugatedSoulData.SoulClass.FLANQUEADOR
 	s2.faction = GameEnums.Faction.PACTO_NECROTH
-	s2.max_health = 120.0
+	s2.max_health = 130.0
 	s2.attack_damage = 32.0
 	s2.move_speed = 230.0
 	s2.sacrifice_buff = SubjugatedSoulData.SacrificeBuffType.PASSO_FANTASMA
 	s2.lore_description = "Assassino das fendas umbrais veloz como o próprio sopro do Limbo."
+	s2.assigned_group = 1
+	s2.is_group_captain = false
 	subjugated_souls.append(s2)
-	quick_slot_2 = s2
+	group_1_members.append(s2)
 	
-	# Alma 3: Taumaturgo de Suporte
+	# Alma 3: Taumaturgo de Suporte alocado no Grupo 2
 	var s3: SubjugatedSoulData = SubjugatedSoulData.new()
 	s3.id = "mulgath_mago"
 	s3.soldier_name = "Mulgath, Piromante do Limbo"
 	s3.soul_class = SubjugatedSoulData.SoulClass.SUPORTE_DISTANCIA
 	s3.faction = GameEnums.Faction.PUTRIDOS_DO_LIMO
-	s3.max_health = 100.0
+	s3.max_health = 110.0
 	s3.attack_damage = 26.0
 	s3.move_speed = 185.0
 	s3.sacrifice_buff = SubjugatedSoulData.SacrificeBuffType.MANANCIAL_VAZIO
 	s3.lore_description = "Canalizador de fogo fátuo e vapores corrosivos à longa distância."
+	s3.assigned_group = 2
+	s3.is_group_captain = true
 	subjugated_souls.append(s3)
+	group_2_captain = s3
 	
 	emit_signal("subjugated_souls_updated")
+
+## Atribui ou remove alma de um grupo (Grupo 1 ou Grupo 2)
+## Capacidade por grupo: 1 Capitão + até 5 membros = 6 soldados no total
+func assign_soul_to_group(soul: SubjugatedSoulData, group_num: int) -> bool:
+	if not soul:
+		return false
+	
+	# Se já está neste grupo, alterna desvinculando
+	if soul.assigned_group == group_num:
+		remove_soul_from_group(soul)
+		return true
+	
+	# Se estava em outro grupo, remove de lá primeiro
+	if soul.assigned_group != 0:
+		remove_soul_from_group(soul)
+	
+	if group_num == 1:
+		if not group_1_captain and (soul.is_group_captain or soul.soul_class == SubjugatedSoulData.SoulClass.COMANDANTE):
+			group_1_captain = soul
+			soul.is_group_captain = true
+		elif group_1_members.size() < 5:
+			group_1_members.append(soul)
+			soul.is_group_captain = false
+		elif not group_1_captain:
+			# Membros cheios (5), mas sem capitão: promove a capitão
+			group_1_captain = soul
+			soul.is_group_captain = true
+		else:
+			# Grupo 1 completamente cheio (1 Capitão + 5 Membros)
+			return false
+	elif group_num == 2:
+		if not group_2_captain and (soul.is_group_captain or soul.soul_class == SubjugatedSoulData.SoulClass.COMANDANTE):
+			group_2_captain = soul
+			soul.is_group_captain = true
+		elif group_2_members.size() < 5:
+			group_2_members.append(soul)
+			soul.is_group_captain = false
+		elif not group_2_captain:
+			group_2_captain = soul
+			soul.is_group_captain = true
+		else:
+			# Grupo 2 completamente cheio
+			return false
+	else:
+		return false
+	
+	soul.assigned_group = group_num
+	emit_signal("subjugated_souls_updated")
+	return true
+
+## Remove alma do seu grupo atual
+func remove_soul_from_group(soul: SubjugatedSoulData) -> void:
+	if not soul:
+		return
+	
+	if group_1_captain == soul:
+		group_1_captain = null
+	if group_1_members.has(soul):
+		group_1_members.erase(soul)
+	if group_2_captain == soul:
+		group_2_captain = null
+	if group_2_members.has(soul):
+		group_2_members.erase(soul)
+	
+	soul.assigned_group = 0
+	soul.is_group_captain = false
+	emit_signal("subjugated_souls_updated")
+
+## Transforma a alma selecionada no Capitão do Grupo em que ela estiver
+func promote_to_group_captain(soul: SubjugatedSoulData) -> bool:
+	if not soul:
+		return false
+	
+	# Se a alma não estiver em nenhum grupo, tenta inseri-la no Grupo 1 primeiro
+	if soul.assigned_group == 0:
+		assign_soul_to_group(soul, 1)
+	
+	var g_num: int = soul.assigned_group
+	if g_num == 1:
+		if group_1_captain == soul:
+			return true # Já é o capitão
+		var prev_cap: SubjugatedSoulData = group_1_captain
+		if group_1_members.has(soul):
+			group_1_members.erase(soul)
+		group_1_captain = soul
+		soul.is_group_captain = true
+		soul.soul_class = SubjugatedSoulData.SoulClass.COMANDANTE
+		# Rebaixa o capitão antigo para membro se houver vaga
+		if prev_cap:
+			prev_cap.is_group_captain = false
+			if group_1_members.size() < 5:
+				group_1_members.append(prev_cap)
+			else:
+				prev_cap.assigned_group = 0
+	elif g_num == 2:
+		if group_2_captain == soul:
+			return true
+		var prev_cap: SubjugatedSoulData = group_2_captain
+		if group_2_members.has(soul):
+			group_2_members.erase(soul)
+		group_2_captain = soul
+		soul.is_group_captain = true
+		soul.soul_class = SubjugatedSoulData.SoulClass.COMANDANTE
+		if prev_cap:
+			prev_cap.is_group_captain = false
+			if group_2_members.size() < 5:
+				group_2_members.append(prev_cap)
+			else:
+				prev_cap.assigned_group = 0
+	
+	emit_signal("subjugated_souls_updated")
+	return true
+
+## Retorna lista de todas as almas de um grupo (Capitão + Membros)
+func get_group_souls(group_num: int) -> Array[SubjugatedSoulData]:
+	var result: Array[SubjugatedSoulData] = []
+	if group_num == 1:
+		if group_1_captain: result.append(group_1_captain)
+		for m in group_1_members: result.append(m)
+	elif group_num == 2:
+		if group_2_captain: result.append(group_2_captain)
+		for m in group_2_members: result.append(m)
+	return result
+
+## Invoca todo o esquadrão de um grupo de uma só vez (Capitão + Membros)
+func summon_squad_group(group_num: int, target_pos: Vector2 = Vector2.ZERO) -> Array[Node2D]:
+	var souls_to_summon: Array[SubjugatedSoulData] = get_group_souls(group_num)
+	var spawned_nodes: Array[Node2D] = []
+	
+	if souls_to_summon.is_empty():
+		return spawned_nodes
+	
+	if target_pos == Vector2.ZERO:
+		target_pos = global_position + Vector2(80, 0)
+	
+	var captain_soul: SubjugatedSoulData = group_1_captain if group_num == 1 else group_2_captain
+	var captain_node: Node2D = null
+	
+	# Invoca o Capitão primeiro
+	if captain_soul and not captain_soul.is_summoned:
+		captain_node = summon_subjugated_soul(captain_soul, target_pos)
+		if captain_node:
+			spawned_nodes.append(captain_node)
+	
+	# Invoca os membros em formação circular ao redor do Capitão
+	var members: Array[SubjugatedSoulData] = group_1_members if group_num == 1 else group_2_members
+	var member_count: int = members.size()
+	for i in range(member_count):
+		var m_soul: SubjugatedSoulData = members[i]
+		if not m_soul.is_summoned:
+			var angle: float = (TAU / maxf(1.0, float(member_count))) * i
+			var offset: Vector2 = Vector2(cos(angle), sin(angle)) * 75.0
+			var member_pos: Vector2 = (captain_node.global_position if captain_node else target_pos) + offset
+			var m_node: Node2D = summon_subjugated_soul(m_soul, member_pos)
+			if m_node:
+				if captain_node and m_node.has_method("set_commander_master"):
+					m_node.set_commander_master(captain_node)
+				spawned_nodes.append(m_node)
+	
+	return spawned_nodes
 
 ## Invoca ou reanima o Primeiro Guardião: O Carrasco do Limbo
 func summon_carrasco() -> bool:
@@ -171,10 +353,9 @@ func sacrifice_subjugated_soul(soul: SubjugatedSoulData) -> bool:
 	# Aplica o buff no GameManager
 	GameManager.apply_sacrifice_buff(soul.sacrifice_buff, soul.soldier_name)
 	
-	# Remove a alma consumida do inventário
+	# Remove a alma consumida do inventário e de qualquer grupo
 	subjugated_souls.erase(soul)
-	if quick_slot_1 == soul: quick_slot_1 = null
-	if quick_slot_2 == soul: quick_slot_2 = null
+	remove_soul_from_group(soul)
 	
 	# Se for o buff de Ascensão Fúnebre, executa cura e onda de choque imediata
 	var necroth_body: Necroth = get_parent() as Necroth

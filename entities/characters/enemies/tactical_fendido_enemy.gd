@@ -224,15 +224,52 @@ func _on_damaged(dmg: float, source: Node) -> void:
 	if sensor and is_instance_valid(source) and source is Node2D:
 		sensor.hear_noise((source as Node2D).global_position, 2.0)
 
+var is_captain: bool = false
+var warlord_data: WarlordData = null
+
+func promote_to_captain(data: WarlordData) -> void:
+	is_captain = true
+	warlord_data = data
+	character_name = data.get_full_title()
+	max_health = 320.0
+	current_health = max_health
+	sword_damage = 28.0
+	defense = 8.0
+	move_speed = 195.0
+	add_to_group("captains")
+	
+	if visual_root:
+		visual_root.scale = Vector2(1.35, 1.35)
+	
+	# Banner de Capitão Nêmesis sobre a cabeça
+	var banner: Label = Label.new()
+	banner.text = "★ CAPITÃO %s ★\n[%s]" % [data.commander_name.to_upper(), data.title]
+	banner.position = Vector2(-150, -95)
+	banner.custom_minimum_size = Vector2(300, 40)
+	banner.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2, 1.0))
+	banner.add_theme_font_size_override("font_size", 11)
+	add_child(banner)
+
 func _on_death(_killer: Node) -> void:
+	if is_captain and warlord_data:
+		InfamyManager.record_warlord_defeat(warlord_data.id)
+		EventBus.tactical_pressure_updated.emit("CAPITAO_DERROTADO: " + warlord_data.get_full_title(), 0.0)
+	
 	if tactical_director:
 		tactical_director.release_attack_token(self)
 		tactical_director.unregister_unit(self)
-		tactical_director.trigger_bark("Incursor Fendido", "Caído! Vinguem o irmão de ferro!")
+		if is_captain:
+			tactical_director.trigger_bark("Esquadrão Fendido", "O Capitão caiu! Recuem ou vinguem o sangue!")
+		else:
+			tactical_director.trigger_bark("Incursor Fendido", "Caído! Vinguem o irmão de ferro!")
 	
-	# Spawna orbe de alma
+	# Spawna orbe de alma com dados do inimigo / capitão
 	var drop: SoulDrop2D = SOUL_DROP_SCENE.instantiate()
 	drop.global_position = global_position
+	drop.source_enemy_name = character_name
+	drop.source_faction = faction
+	drop.is_captain = is_captain
+	drop.captain_warlord_data = warlord_data
 	var cur_scene: Node = get_tree().current_scene
 	if cur_scene:
 		cur_scene.call_deferred("add_child", drop)

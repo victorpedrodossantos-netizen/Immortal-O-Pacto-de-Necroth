@@ -36,14 +36,36 @@ func _physics_process(delta: float) -> void:
 	_scan_for_targets(delta)
 	_handle_alert_decay(delta)
 
-## Escaneia alvos potenciais (Necroth e seus asseclas)
+## Escaneia alvos potenciais (criaturas de outra facção, jogador ou servos de Necroth)
 func _scan_for_targets(delta: float) -> void:
-	var potential_targets: Array[Node] = get_tree().get_nodes_in_group("player") + get_tree().get_nodes_in_group("servants")
+	var my_char: BaseCharacter = get_parent() as BaseCharacter
+	var my_faction: GameEnums.Faction = my_char.faction if my_char else GameEnums.Faction.FENDIDOS_DE_FERRO
+	var is_servant: bool = (my_char != null and my_char.is_in_group("servants")) or my_faction == GameEnums.Faction.PACTO_NECROTH
+	
+	var potential_targets: Array[Node] = []
+	if is_servant:
+		# Servos no exército de Necroth atacam unicamente inimigos selvagens (não atacam outros servos nem o jogador)
+		for enemy in get_tree().get_nodes_in_group("enemies"):
+			if enemy != my_char and is_instance_valid(enemy) and not enemy.is_in_group("servants"):
+				potential_targets.append(enemy)
+	else:
+		# Criaturas selvagens atacam o jogador e seus asseclas
+		potential_targets.append_array(get_tree().get_nodes_in_group("player"))
+		potential_targets.append_array(get_tree().get_nodes_in_group("servants"))
+		
+		# Hostilidade entre espécies selvagens: Orcs vs Ghûls vs Ologs/Trolls
+		for enemy in get_tree().get_nodes_in_group("enemies"):
+			if enemy != my_char and is_instance_valid(enemy) and enemy is BaseCharacter:
+				if not enemy.is_dead and enemy.faction != my_faction:
+					potential_targets.append(enemy)
+	
 	var target_visible: bool = false
 	
 	for target in potential_targets:
 		var node_2d: Node2D = target as Node2D
 		if not node_2d or not is_instance_valid(node_2d):
+			continue
+		if node_2d is BaseCharacter and node_2d.is_dead:
 			continue
 		
 		var dist: float = global_position.distance_to(node_2d.global_position)
@@ -67,7 +89,7 @@ func _scan_for_targets(delta: float) -> void:
 			raycast.force_raycast_update()
 			
 			var collider: Object = raycast.get_collider()
-			if collider == node_2d or collider == null:
+			if collider == node_2d or collider == null or (collider is BaseCharacter and (collider as BaseCharacter).faction != my_faction):
 				target_visible = true
 				current_target = node_2d
 				last_known_position = node_2d.global_position

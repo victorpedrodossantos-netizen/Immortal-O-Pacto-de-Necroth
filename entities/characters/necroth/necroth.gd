@@ -95,12 +95,12 @@ func _update_motion_animation(delta: float) -> void:
 		visual_root.rotation = 0.0
 
 func _handle_movement_input() -> void:
-	# Movimentação exclusiva pelas Setas do Teclado (Arrow Keys)
+	# Movimentação exclusiva via WASD
 	var input_vec: Vector2 = Vector2.ZERO
-	if Input.is_key_pressed(KEY_LEFT): input_vec.x -= 1.0
-	if Input.is_key_pressed(KEY_RIGHT): input_vec.x += 1.0
-	if Input.is_key_pressed(KEY_UP): input_vec.y -= 1.0
-	if Input.is_key_pressed(KEY_DOWN): input_vec.y += 1.0
+	if Input.is_key_pressed(KEY_A): input_vec.x -= 1.0
+	if Input.is_key_pressed(KEY_D): input_vec.x += 1.0
+	if Input.is_key_pressed(KEY_W): input_vec.y -= 1.0
+	if Input.is_key_pressed(KEY_S): input_vec.y += 1.0
 	
 	input_vec = input_vec.normalized()
 	velocity = input_vec * move_speed
@@ -316,6 +316,69 @@ func summon_guardian() -> Node2D:
 func order_squad_focus(target_pos: Vector2) -> void:
 	if summoner:
 		summoner.issue_squad_order(target_pos, "ATTACK_FOCUS")
+
+const SubjugatedSoulData = preload("res://resources/subjugated_soul_data.gd")
+
+## Chamado quando Necroth absorve uma orbe de alma física no campo de batalha
+func harvest_soul_orb(drop: Node2D) -> void:
+	if not drop:
+		return
+	
+	var s_data: SoulData = drop.soul_data if "soul_data" in drop and drop.soul_data else SoulData.new()
+	harvest_soul(s_data)
+	
+	if summoner:
+		var sub_soul: SubjugatedSoulData = SubjugatedSoulData.new()
+		var enemy_name: String = drop.source_enemy_name if "source_enemy_name" in drop else "Inimigo"
+		var faction_val = drop.source_faction if "source_faction" in drop else GameEnums.Faction.FENDIDOS_DE_FERRO
+		var is_cap: bool = drop.is_captain if "is_captain" in drop else false
+		var w_data = drop.captain_warlord_data if "captain_warlord_data" in drop else null
+		
+		sub_soul.id = "soul_%s_%d" % [enemy_name.to_lower().replace(" ", "_"), Time.get_ticks_msec()]
+		sub_soul.faction = faction_val
+		
+		if is_cap and w_data:
+			sub_soul.soldier_name = "Espectro de %s" % w_data.get_full_title()
+			sub_soul.soul_class = SubjugatedSoulData.SoulClass.COMANDANTE
+			sub_soul.sacrifice_buff = SubjugatedSoulData.SacrificeBuffType.ASCENSAO_FUNEBRE
+			sub_soul.max_health = 380.0
+			sub_soul.attack_damage = 36.0
+			sub_soul.move_speed = 195.0
+			sub_soul.summon_ether_cost = 35.0
+			sub_soul.lore_description = "Capitão Nêmesis subjugado ao Grimório de Invocações. Concede Ascensão Fúnebre ao ser sacrificado."
+		else:
+			sub_soul.soldier_name = "Espectro de %s" % enemy_name
+			sub_soul.summon_ether_cost = 20.0
+			match faction_val:
+				GameEnums.Faction.FENDIDOS_DE_FERRO:
+					sub_soul.soul_class = SubjugatedSoulData.SoulClass.TROPA_CHOQUE
+					sub_soul.sacrifice_buff = SubjugatedSoulData.SacrificeBuffType.COURAÇA_FERRO
+					sub_soul.max_health = 180.0
+					sub_soul.attack_damage = 24.0
+					sub_soul.move_speed = 185.0
+					sub_soul.lore_description = "Guerreiro Orc Fendido disciplinado no manejo do escudo de ferro."
+				GameEnums.Faction.PUTRIDOS_DO_LIMO:
+					sub_soul.soul_class = SubjugatedSoulData.SoulClass.FLANQUEADOR
+					sub_soul.sacrifice_buff = SubjugatedSoulData.SacrificeBuffType.PASSO_FANTASMA
+					sub_soul.max_health = 130.0
+					sub_soul.attack_damage = 28.0
+					sub_soul.move_speed = 230.0
+					sub_soul.lore_description = "Carniçal voraz que rasteja e salta sobre os alvos."
+				GameEnums.Faction.VAGANTES_DO_VEU:
+					sub_soul.soul_class = SubjugatedSoulData.SoulClass.TROPA_CHOQUE
+					sub_soul.sacrifice_buff = SubjugatedSoulData.SacrificeBuffType.COURAÇA_FERRO
+					sub_soul.max_health = 340.0
+					sub_soul.attack_damage = 40.0
+					sub_soul.move_speed = 145.0
+					sub_soul.lore_description = "Titã Olog colossal que esmaga múltiplos oponentes."
+				_:
+					sub_soul.soul_class = SubjugatedSoulData.SoulClass.TROPA_CHOQUE
+					sub_soul.max_health = 150.0
+					sub_soul.attack_damage = 20.0
+		
+		summoner.subjugated_souls.append(sub_soul)
+		summoner.emit_signal("subjugated_souls_updated")
+		EventBus.soul_harvested.emit(sub_soul.id, sub_soul.attack_damage, drop.global_position)
 
 ## Chamado quando Necroth absorve uma orbe de alma
 func harvest_soul(soul: SoulData) -> void:

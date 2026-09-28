@@ -145,6 +145,9 @@ func _impact_ground_slam() -> void:
 	
 	var targets: Array[Node] = get_tree().get_nodes_in_group("player")
 	targets.append_array(get_tree().get_nodes_in_group("servants"))
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		if enemy != self and is_instance_valid(enemy) and enemy is BaseCharacter and (enemy as BaseCharacter).faction != faction:
+			targets.append(enemy)
 	
 	for body in targets:
 		if body is BaseCharacter and not body.is_dead and body.faction != faction:
@@ -193,23 +196,50 @@ func take_damage(amount: float, source: Node = null) -> float:
 		sensor.hear_noise((source as Node2D).global_position, 2.5)
 	return dmg
 
+var is_captain: bool = false
+var warlord_data: WarlordData = null
+
+func promote_to_captain(data: WarlordData) -> void:
+	is_captain = true
+	warlord_data = data
+	character_name = data.get_full_title()
+	max_health = 600.0
+	current_health = max_health
+	slam_damage = 44.0
+	defense = 14.0
+	move_speed = 135.0
+	add_to_group("captains")
+	
+	if visual_root:
+		visual_root.scale = Vector2(1.25, 1.25)
+	
+	var banner: Label = Label.new()
+	banner.text = "★ SENHOR DA GUERRA %s ★\n[%s]" % [data.commander_name.to_upper(), data.title]
+	banner.position = Vector2(-180, -115)
+	banner.custom_minimum_size = Vector2(360, 40)
+	banner.add_theme_color_override("font_color", Color(1.0, 0.45, 0.2, 1.0))
+	banner.add_theme_font_size_override("font_size", 11)
+	add_child(banner)
+
 func die(killer: Node = null) -> void:
+	if is_captain and warlord_data:
+		InfamyManager.record_warlord_defeat(warlord_data.id)
+		EventBus.tactical_pressure_updated.emit("SENHOR_DA_GUERRA_DERROTADO: " + warlord_data.get_full_title(), 0.0)
+	
 	var drop: SoulDrop2D = SOUL_DROP_SCENE.instantiate()
 	drop.global_position = global_position
+	drop.source_enemy_name = character_name
+	drop.source_faction = faction
+	drop.is_captain = is_captain
+	drop.captain_warlord_data = warlord_data
 	if drop.soul_data:
 		drop.soul_data.id = "alma_olog_colosso"
-		drop.soul_data.soul_name = "Centelha de Titã Fendido"
+		drop.soul_data.soul_name = "Centelha de " + character_name
 		drop.soul_data.energy_value = 50.0
 	
 	var cur_scene: Node = get_tree().current_scene
 	if cur_scene:
 		cur_scene.call_deferred("add_child", drop)
-	
-	var player_nodes = get_tree().get_nodes_in_group("player")
-	if not player_nodes.is_empty():
-		var p = player_nodes[0]
-		if p.has_node("SummonerComponent"):
-			p.get_node("SummonerComponent").capture_enemy_soul("Titã Olog de Pedra", faction)
 	
 	super.die(killer)
 	queue_free()

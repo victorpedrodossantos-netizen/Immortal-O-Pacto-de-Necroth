@@ -113,6 +113,8 @@ func _on_alert_changed(lvl: GameEnums.AlertLevel) -> void:
 func _on_death(_killer: Node) -> void:
 	var drop: SoulDrop2D = SOUL_DROP_SCENE.instantiate()
 	drop.global_position = global_position
+	drop.source_enemy_name = "Pútrido do Limo"
+	drop.source_faction = faction
 	var soul: SoulData = SoulData.new()
 	soul.id = "alma_putrido_menor"
 	soul.soul_name = "Centelha de Pútrido"

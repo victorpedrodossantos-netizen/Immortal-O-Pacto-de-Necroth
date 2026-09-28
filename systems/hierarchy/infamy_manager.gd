@@ -100,3 +100,16 @@ func record_warlord_defeat(warlord_id: String) -> void:
 			w.scars.append("Cicatriz de lâmina espectral profunda deixada pelo Carrasco.")
 			emit_signal("hierarchy_updated")
 			break
+
+func get_warlord_by_name(c_name: String) -> WarlordData:
+	for w in warlords:
+		if w.commander_name.to_lower() == c_name.to_lower():
+			return w
+	return null
+
+func get_alive_captains() -> Array[WarlordData]:
+	var result: Array[WarlordData] = []
+	for w in warlords:
+		if w.is_alive and w.tier <= 2:
+			result.append(w)
+	return result

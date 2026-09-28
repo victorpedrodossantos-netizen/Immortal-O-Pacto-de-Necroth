@@ -1,200 +1,669 @@
-[gd_scene load_steps=2 format=3 uid="uid://soulgrimoire001"]
+[gd_scene load_steps=22 format=3 uid="uid://soulgrimoire001"]
 
 [ext_resource type="Script" path="res://ui/screens/soul_grimoire_screen.gd" id="1_grimoire_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_backdrop"]
+bg_color = Color(0.012, 0.016, 0.024, 0.96)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_main_frame"]
+bg_color = Color(0.032, 0.042, 0.06, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.145, 0.886, 0.596, 0.5)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.9)
+shadow_size = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_status_panel"]
+bg_color = Color(0.05, 0.07, 0.095, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9, 0.76, 0.28, 0.45)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_dark"]
+bg_color = Color(0.022, 0.03, 0.045, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.14, 0.20, 0.28, 0.75)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_details_panel"]
+bg_color = Color(0.022, 0.03, 0.045, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.145, 0.886, 0.596, 0.35)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hero_header"]
+bg_color = Color(0.04, 0.055, 0.078, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.22, 0.34, 0.42, 0.6)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_portrait_frame"]
+bg_color = Color(0.012, 0.016, 0.025, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.92, 0.78, 0.28, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stat_tile_hp"]
+bg_color = Color(0.10, 0.03, 0.03, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.85, 0.25, 0.25, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stat_tile_atk"]
+bg_color = Color(0.10, 0.06, 0.02, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9, 0.6, 0.2, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stat_tile_spd"]
+bg_color = Color(0.02, 0.06, 0.10, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.6, 0.85, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stat_tile_ether"]
+bg_color = Color(0.02, 0.08, 0.05, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.145, 0.886, 0.596, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sacrifice_panel"]
+bg_color = Color(0.11, 0.035, 0.035, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.35, 0.2, 0.75)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_squad_actions"]
+bg_color = Color(0.04, 0.055, 0.08, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.18, 0.32, 0.44, 0.55)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_gold"]
+bg_color = Color(0.13, 0.10, 0.04, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.80, 0.30, 0.85)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_cyan"]
+bg_color = Color(0.045, 0.09, 0.13, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.65, 0.88, 0.75)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_green"]
+bg_color = Color(0.035, 0.10, 0.07, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.145, 0.886, 0.596, 0.8)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_crimson"]
+bg_color = Color(0.12, 0.04, 0.04, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9, 0.3, 0.22, 0.8)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_escort"]
+bg_color = Color(0.06, 0.07, 0.09, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.5, 0.6, 0.6)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_close"]
+bg_color = Color(0.04, 0.055, 0.075, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.145, 0.886, 0.596, 0.7)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [node name="SoulGrimoireScreen" type="CanvasLayer"]
 process_mode = 3
 layer = 25
 script = ExtResource("1_grimoire_script")
 
-[node name="Backdrop" type="ColorRect" parent="."]
+[node name="Backdrop" type="Panel" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.02, 0.03, 0.05, 0.94)
+theme_override_styles/panel = SubResource("StyleBoxFlat_backdrop")
 
-[node name="Margin" type="MarginContainer" parent="."]
+[node name="MainMargin" type="MarginContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 60
-theme_override_constants/margin_top = 40
-theme_override_constants/margin_right = 60
-theme_override_constants/margin_bottom = 40
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 16
 
-[node name="VBox" type="VBoxContainer" parent="Margin"]
+[node name="MainFramePanel" type="PanelContainer" parent="MainMargin"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_styles/panel = SubResource("StyleBoxFlat_main_frame")
 
-[node name="Header" type="VBoxContainer" parent="Margin/VBox"]
+[node name="FrameMargin" type="MarginContainer" parent="MainMargin/MainFramePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="RootVBox" type="VBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HeaderVBox" type="VBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Title" type="Label" parent="Margin/VBox/Header"]
+[node name="Title" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/HeaderVBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.145, 0.886, 0.596, 1)
-theme_override_font_sizes/font_size = 24
-text = "📜 GRIMÓRIO DOS CONDENADOS: TABULEIRO DE ALMAS SUBJULGADAS"
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+text = "📖 GRIMÓRIO DE INVOCAÇÕES — TABULEIRO DE ALMAS SUBJULGADAS"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="Margin/VBox/Header"]
+[node name="Subtitle" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/HeaderVBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 0.8)
+theme_override_colors/font_color = Color(0.72, 0.80, 0.85, 0.85)
 theme_override_font_sizes/font_size = 13
-text = "Erga guerreiros cativos no campo de batalha, sacrifique almas por bônus imediatos, ou comande a escolta do Carrasco do Limbo."
+text = "Comande os guerreiros aprisionados pelo Pacto de Necroth • Aloque esquadrões e promova seus Capitães"
 horizontal_alignment = 1
 
-[node name="ArmyStatusLabel" type="Label" parent="Margin/VBox/Header"]
+[node name="StatusPanel" type="PanelContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/HeaderVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_status_panel")
+
+[node name="StatusMargin" type="MarginContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/HeaderVBox/StatusPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 6
+
+[node name="ArmyStatusLabel" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/HeaderVBox/StatusPanel/StatusMargin"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
-theme_override_font_sizes/font_size = 14
-text = "⚔️ TROPAS EM CAMPO: 0 / 3  |  GUARDIÃO: ATIVO (Carrasco do Limbo)"
+theme_override_colors/font_color = Color(1, 0.88, 0.42, 1)
+theme_override_font_sizes/font_size = 13
+text = "⚔️ TROPAS ATIVAS: 0/12   |   🛡️ GRUPO 1: [👑 Capitão: Gareth | 1/5 tropas]   |   🛡️ GRUPO 2: [👑 Capitão: Mulgath | 0/5 tropas]"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="Margin/VBox"]
+[node name="HSeparator" type="HSeparator" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox"]
 layout_mode = 2
 
-[node name="ContentSplit" type="HBoxContainer" parent="Margin/VBox"]
+[node name="ContentSplit" type="HBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 28
-
-[node name="LeftScroll" type="ScrollContainer" parent="Margin/VBox/ContentSplit"]
-custom_minimum_size = Vector2(480, 0)
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="SoulContainer" type="VBoxContainer" parent="Margin/VBox/ContentSplit/LeftScroll"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 10
-
-[node name="RightDetailsPanel" type="PanelContainer" parent="Margin/VBox/ContentSplit"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Margin" type="MarginContainer" parent="Margin/VBox/ContentSplit/RightDetailsPanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 20
-
-[node name="DetailVBox" type="VBoxContainer" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin"]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="PortraitHBox" type="HBoxContainer" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox"]
-layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="PortraitFrame" type="PanelContainer" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox/PortraitHBox"]
-custom_minimum_size = Vector2(96, 96)
+[node name="LeftPanelContainer" type="PanelContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit"]
+custom_minimum_size = Vector2(460, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.40
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_dark")
 
-[node name="DetailPortrait" type="TextureRect" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox/PortraitHBox/PortraitFrame"]
+[node name="LeftMargin" type="MarginContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/LeftPanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="LeftVBox" type="VBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/LeftPanelContainer/LeftMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LeftHeaderLabel" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/LeftPanelContainer/LeftMargin/LeftVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.145, 0.886, 0.596, 0.95)
+theme_override_font_sizes/font_size = 14
+text = "💀 ALMAS APRISIONADAS NO TOMO"
+
+[node name="LeftScroll" type="ScrollContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/LeftPanelContainer/LeftMargin/LeftVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="SoulContainer" type="VBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/LeftPanelContainer/LeftMargin/LeftVBox/LeftScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="RightDetailsPanel" type="PanelContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.60
+theme_override_styles/panel = SubResource("StyleBoxFlat_details_panel")
+
+[node name="RightMargin" type="MarginContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="RightScroll" type="ScrollContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DetailVBox" type="VBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="HeroHeaderPanel" type="PanelContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hero_header")
+
+[node name="HeroMargin" type="MarginContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/HeroHeaderPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="PortraitHBox" type="HBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/HeroHeaderPanel/HeroMargin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="PortraitFrame" type="PanelContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/HeroHeaderPanel/HeroMargin/PortraitHBox"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_portrait_frame")
+
+[node name="DetailPortrait" type="TextureRect" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/HeroHeaderPanel/HeroMargin/PortraitHBox/PortraitFrame"]
 unique_name_in_owner = true
 layout_mode = 2
 expand_mode = 1
-stretch_mode = 5
+stretch_mode = 6
 
-[node name="HeaderLabels" type="VBoxContainer" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox/PortraitHBox"]
+[node name="HeaderLabels" type="VBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/HeroHeaderPanel/HeroMargin/PortraitHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 4
+theme_override_constants/separation = 6
 
-[node name="DetailNameLabel" type="Label" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox/PortraitHBox/HeaderLabels"]
+[node name="DetailNameLabel" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/HeroHeaderPanel/HeroMargin/PortraitHBox/HeaderLabels"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.145, 0.886, 0.596, 1)
-theme_override_font_sizes/font_size = 20
-text = "Nome do Guerreiro"
+theme_override_colors/font_color = Color(1, 0.88, 0.35, 1)
+theme_override_font_sizes/font_size = 22
+text = "Gareth, O Rompe-Escudos"
 
-[node name="DetailClassLabel" type="Label" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox/PortraitHBox/HeaderLabels"]
+[node name="DetailClassLabel" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/HeroHeaderPanel/HeroMargin/PortraitHBox/HeaderLabels"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.5, 0.8, 1, 1)
-theme_override_font_sizes/font_size = 14
-text = "Classe e Facção"
-
-[node name="DetailStatsLabel" type="Label" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+theme_override_colors/font_color = Color(0.4, 0.85, 1, 1)
 theme_override_font_sizes/font_size = 13
-text = "Atributos: Vida, Ataque, Custo"
+text = "⚔️ Comandante Espectral   •   🏛️ FENDIDOS_DE_FERRO   •   🛡️ Grupo 1 (Capitão)"
 
-[node name="DetailLoreLabel" type="Label" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox"]
+[node name="DetailLoreLabel" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/HeroHeaderPanel/HeroMargin/PortraitHBox/HeaderLabels"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.85, 0.85, 0.85)
-theme_override_font_sizes/font_size = 13
-text = "Descrição de história e juramento fúnebre."
+theme_override_colors/font_color = Color(0.72, 0.78, 0.82, 0.9)
+theme_override_font_sizes/font_size = 12
+text = "\"Capitão veterano com aura defensiva implacável e postura de comando.\""
 autowrap_mode = 2
 
-[node name="DetailSacrificeLabel" type="Label" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.45, 0.35, 1)
-theme_override_font_sizes/font_size = 14
-text = "Sacrifício das Cinzas: Buff Imediato"
-autowrap_mode = 2
-
-[node name="Spacer" type="Control" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ActionButtons" type="VBoxContainer" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox"]
+[node name="StatsCardsHBox" type="HBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="BtnSummon" type="Button" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox/ActionButtons"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-text = "💀 ERGUER EM BATALHA (Invocação de Campo)"
-
-[node name="BtnSacrifice" type="Button" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox/ActionButtons"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-text = "🔥 SACRIFÍCIO DAS CINZAS (Consumir Alma por Boost)"
-
-[node name="BtnEscort" type="Button" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox/ActionButtons"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 36)
-layout_mode = 2
-text = "🛡️ ESCOLTAR O CARRASCO DO LIMBO"
-
-[node name="QuickSlotsHBox" type="HBoxContainer" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox/ActionButtons"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="BtnQuickSlot1" type="Button" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox/ActionButtons/QuickSlotsHBox"]
-unique_name_in_owner = true
+[node name="TileHP" type="PanelContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "⚡ VINCULAR AO SLOT 4"
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_tile_hp")
 
-[node name="BtnQuickSlot2" type="Button" parent="Margin/VBox/ContentSplit/RightDetailsPanel/Margin/DetailVBox/ActionButtons/QuickSlotsHBox"]
-unique_name_in_owner = true
+[node name="Margin" type="MarginContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileHP"]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "⚡ VINCULAR AO SLOT 5"
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
 
-[node name="Footer" type="HBoxContainer" parent="Margin/VBox"]
+[node name="VBox" type="VBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileHP/Margin"]
 layout_mode = 2
 alignment = 1
 
-[node name="BtnClose" type="Button" parent="Margin/VBox/Footer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 42)
+[node name="Title" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileHP/Margin/VBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.45, 0.45, 0.9)
+theme_override_font_sizes/font_size = 11
+text = "❤️ VITALIDADE"
+horizontal_alignment = 1
+
+[node name="StatHpLabel" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileHP/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 16
+text = "240"
+horizontal_alignment = 1
+
+[node name="TileATK" type="PanelContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_tile_atk")
+
+[node name="Margin" type="MarginContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileATK"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBox" type="VBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileATK/Margin"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileATK/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.65, 0.35, 0.9)
+theme_override_font_sizes/font_size = 11
+text = "⚔️ ATAQUE"
+horizontal_alignment = 1
+
+[node name="StatAtkLabel" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileATK/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 16
+text = "28"
+horizontal_alignment = 1
+
+[node name="TileSPD" type="PanelContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_tile_spd")
+
+[node name="Margin" type="MarginContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileSPD"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBox" type="VBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileSPD/Margin"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileSPD/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.75, 0.95, 0.9)
+theme_override_font_sizes/font_size = 11
+text = "⚡ VELOCIDADE"
+horizontal_alignment = 1
+
+[node name="StatSpdLabel" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileSPD/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "180"
+horizontal_alignment = 1
+
+[node name="TileETHER" type="PanelContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_tile_ether")
+
+[node name="Margin" type="MarginContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileETHER"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBox" type="VBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileETHER/Margin"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileETHER/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.85, 0.65, 0.9)
+theme_override_font_sizes/font_size = 11
+text = "🔮 CUSTO ÉTER"
+horizontal_alignment = 1
+
+[node name="StatEtherLabel" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/StatsCardsHBox/TileETHER/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 1, 0.8, 1)
+theme_override_font_sizes/font_size = 16
+text = "20"
+horizontal_alignment = 1
+
+[node name="DetailStatsLabel" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = ""
+
+[node name="SacrificePanel" type="PanelContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sacrifice_panel")
+
+[node name="SacrificeMargin" type="MarginContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SacrificePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 8
+
+[node name="DetailSacrificeLabel" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SacrificePanel/SacrificeMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.55, 0.45, 1)
+theme_override_font_sizes/font_size = 13
+text = "🔥 SACRIFÍCIO DAS CINZAS (PODER FÚNEBRE IMEDIATO): +50% Armadura & Imunidade a Atordoamento por 30s."
+autowrap_mode = 2
+
+[node name="SquadActionsPanel" type="PanelContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_squad_actions")
+
+[node name="ActionsMargin" type="MarginContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SquadActionsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="ActionButtons" type="VBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SquadActionsPanel/ActionsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ActionSectionLabel" type="Label" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SquadActionsPanel/ActionsMargin/ActionButtons"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.88, 0.95, 0.9)
+theme_override_font_sizes/font_size = 12
+text = "🛡️ GERENCIAMENTO DE ESQUADRÃO & COMANDO TÁTICO"
+horizontal_alignment = 1
+
+[node name="QuickSlotsHBox" type="HBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SquadActionsPanel/ActionsMargin/ActionButtons"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BtnQuickSlot1" type="Button" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SquadActionsPanel/ActionsMargin/ActionButtons/QuickSlotsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_cyan")
+text = "⚔️ INSERIR NO GRUPO 1"
+
+[node name="BtnQuickSlot2" type="Button" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SquadActionsPanel/ActionsMargin/ActionButtons/QuickSlotsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_cyan")
+text = "⚔️ INSERIR NO GRUPO 2"
+
+[node name="BtnMakeCaptain" type="Button" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SquadActionsPanel/ActionsMargin/ActionButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.45, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_gold")
+text = "👑 PROMOVER A CAPITÃO DO GRUPO"
+
+[node name="SummonRowHBox" type="HBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SquadActionsPanel/ActionsMargin/ActionButtons"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BtnSummon" type="Button" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SquadActionsPanel/ActionsMargin/ActionButtons/SummonRowHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.145, 0.886, 0.596, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_green")
+text = "💀 ERGUER EM BATALHA"
+
+[node name="BtnSacrifice" type="Button" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SquadActionsPanel/ActionsMargin/ActionButtons/SummonRowHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.55, 0.45, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_crimson")
+text = "🔥 SACRIFÍCIO DAS CINZAS"
+
+[node name="BtnEscort" type="Button" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/ContentSplit/RightDetailsPanel/RightMargin/RightScroll/DetailVBox/SquadActionsPanel/ActionsMargin/ActionButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_escort")
+text = "🛡️ ESCOLTAR O CARRASCO DO LIMBO"
+
+[node name="Footer" type="HBoxContainer" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="BtnClose" type="Button" parent="MainMargin/MainFramePanel/FrameMargin/RootVBox/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.145, 0.886, 0.596, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_close")
 text = "⬅ RETORNAR AO COMBATE (TAB / ESC)"

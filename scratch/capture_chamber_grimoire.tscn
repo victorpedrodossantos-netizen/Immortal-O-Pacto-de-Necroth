@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://chambergrimoirecap01"]
+
+[ext_resource type="Script" path="res://scratch/capture_chamber_grimoire.gd" id="1_cap_script"]
+
+[node name="CaptureChamberGrimoire" type="Node"]
+script = ExtResource("1_cap_script")

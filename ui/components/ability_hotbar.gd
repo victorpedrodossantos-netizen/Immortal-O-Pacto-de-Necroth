@@ -13,6 +13,8 @@ const HotbarSlot = preload("res://ui/components/hotbar_slot.gd")
 @onready var slot_carrasco: HotbarSlot = %SlotCarrasco
 @onready var slot_focus: HotbarSlot = %SlotFocus
 @onready var slot_grimoire: HotbarSlot = %SlotGrimoire
+@onready var slot_squad1: HotbarSlot = %SlotSquad1
+@onready var slot_squad2: HotbarSlot = %SlotSquad2
 
 var necroth_ref: Node2D = null
 
@@ -27,6 +29,21 @@ func setup_necroth(player_node: Node2D) -> void:
 	if necroth_ref and necroth_ref.has_signal("ether_changed"):
 		necroth_ref.ether_changed.connect(_on_necroth_ether_changed)
 		_on_necroth_ether_changed(necroth_ref.current_ether, necroth_ref.max_ether)
+	if necroth_ref and "summoner" in necroth_ref and necroth_ref.summoner:
+		if not necroth_ref.summoner.subjugated_souls_updated.is_connected(_update_squad_labels):
+			necroth_ref.summoner.subjugated_souls_updated.connect(_update_squad_labels)
+		_update_squad_labels()
+
+func _update_squad_labels() -> void:
+	if not necroth_ref or not ("summoner" in necroth_ref) or not necroth_ref.summoner:
+		return
+	var s = necroth_ref.summoner
+	var g1_count: int = (1 if s.group_1_captain else 0) + s.group_1_members.size()
+	var g2_count: int = (1 if s.group_2_captain else 0) + s.group_2_members.size()
+	if slot_squad1:
+		slot_squad1.ability_name = "Grupo 1 (%d/6)" % g1_count
+	if slot_squad2:
+		slot_squad2.ability_name = "Grupo 2 (%d/6)" % g2_count
 
 func _on_necroth_ether_changed(current_ether: float, _max_ether: float) -> void:
 	if slot_garras: slot_garras.update_ether_availability(current_ether)
@@ -66,3 +83,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_7, KEY_TAB:
 				if slot_grimoire:
 					slot_grimoire.flash_activation()
+			KEY_8:
+				if slot_squad1:
+					slot_squad1.flash_activation()
+					slot_squad1.start_cooldown(1.5)
+			KEY_9:
+				if slot_squad2:
+					slot_squad2.flash_activation()
+					slot_squad2.start_cooldown(1.5)

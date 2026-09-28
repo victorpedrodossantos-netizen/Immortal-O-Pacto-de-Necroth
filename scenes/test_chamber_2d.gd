@@ -9,15 +9,8 @@ const AbilityHotbar = preload("res://ui/components/ability_hotbar.gd")
 
 const MAIN_MENU_SCENE: String = "res://ui/screens/main_menu.tscn"
 const TACTICAL_FENDIDO_SCENE: PackedScene = preload("res://entities/characters/enemies/tactical_fendido_enemy.tscn")
-const BOSS_SCENE: PackedScene = preload("res://entities/characters/bosses/avatar_predador.tscn")
 const OLOG_SCENE: PackedScene = preload("res://entities/characters/enemies/olog_tita_enemy.tscn")
 
-@onready var btn_back: Button = %BtnBack
-@onready var btn_open_grimoire: Button = %BtnOpenGrimoire
-@onready var btn_respawn_enemies: Button = %BtnRespawnEnemies
-@onready var btn_spawn_boss: Button = %BtnSpawnBoss
-@onready var btn_spawn_olog: Button = %BtnSpawnOlog
-@onready var btn_toggle_cycle: Button = %BtnToggleCycle
 @onready var soul_grimoire_screen: SoulGrimoireScreen = %SoulGrimoireScreen
 @onready var ability_hotbar: AbilityHotbar = %AbilityHotbar
 @onready var hp_bar: ProgressBar = %HpBar
@@ -39,18 +32,6 @@ const OLOG_SCENE: PackedScene = preload("res://entities/characters/enemies/olog_
 var bark_timer: float = 0.0
 
 func _ready() -> void:
-	if btn_back:
-		btn_back.pressed.connect(_on_back_pressed)
-	if btn_open_grimoire:
-		btn_open_grimoire.pressed.connect(_toggle_grimoire)
-	if btn_respawn_enemies:
-		btn_respawn_enemies.pressed.connect(spawn_test_enemies)
-	if btn_spawn_boss:
-		btn_spawn_boss.pressed.connect(spawn_boss)
-	if btn_spawn_olog:
-		btn_spawn_olog.pressed.connect(spawn_olog_brute)
-	if btn_toggle_cycle:
-		btn_toggle_cycle.pressed.connect(_toggle_cycle)
 	
 	GameManager.buff_started.connect(_on_buff_started)
 	GameManager.buff_expired.connect(_on_buff_expired)
@@ -106,19 +87,7 @@ func spawn_test_enemies() -> void:
 		biome_spawner.populate_initial_ecosystem()
 		_on_tactical_bark("Ecos do Ermo", "O ecossistema dos biomas foi repovoado organicamente!")
 
-func spawn_boss() -> void:
-	if not enemy_container:
-		return
-	
-	var boss: AvatarPredador = BOSS_SCENE.instantiate()
-	boss.global_position = Vector2(950, -400) # Ruínas Rúnicas do Vazio
-	enemy_container.add_child(boss)
-	
-	if macro_director:
-		var target: Node2D = necroth if is_instance_valid(necroth) else null
-		macro_director.setup_hunt(boss, target)
-	
-	_on_tactical_bark("Balgor, Avatar", "O sangue dos invasores nutrirá as pedras de ferro!")
+
 
 func spawn_olog_brute() -> void:
 	if not enemy_container:
@@ -211,16 +180,21 @@ func _toggle_grimoire() -> void:
 		else:
 			soul_grimoire_screen.open_grimoire(necroth.summoner)
 
-func _quick_summon(slot_num: int) -> void:
+func _quick_summon(group_num: int) -> void:
 	if necroth and necroth.summoner:
-		var target_soul: SubjugatedSoulData = necroth.summoner.quick_slot_1 if slot_num == 1 else necroth.summoner.quick_slot_2
-		if target_soul:
-			var mouse_pos: Vector2 = get_global_mouse_position()
-			var summoned: Node2D = necroth.summoner.summon_subjugated_soul(target_soul, mouse_pos)
-			if summoned:
-				_on_tactical_bark("Necroth", "Erga-se das cinzas, %s!" % target_soul.soldier_name)
+		var souls: Array[SubjugatedSoulData] = necroth.summoner.get_group_souls(group_num)
+		if souls.is_empty():
+			_on_tactical_bark("Pacto de Necroth", "O Grupo %d está vazio! Insira tropas pelo Grimório de Invocações (Tecla 7)." % group_num)
+			return
+		
+		var mouse_pos: Vector2 = get_global_mouse_position()
+		var spawned: Array[Node2D] = necroth.summoner.summon_squad_group(group_num, mouse_pos)
+		if not spawned.is_empty():
+			var cap_soul: SubjugatedSoulData = necroth.summoner.group_1_captain if group_num == 1 else necroth.summoner.group_2_captain
+			var cap_name: String = cap_soul.soldier_name if cap_soul else "guerreiros espectrais"
+			_on_tactical_bark("Necroth", "Erga-se o Grupo %d sob a liderança de %s (%d tropas)!" % [group_num, cap_name, spawned.size()])
 		else:
-			_on_tactical_bark("Pacto de Necroth", "Nenhuma alma vinculada ao Slot %d. Vincule pelo Grimório (TAB)." % slot_num)
+			_on_tactical_bark("Necroth", "Éter insuficiente ou guerreiros do Grupo %d já estão em batalha!" % group_num)
 
 func _on_buff_started(_buff_id: String, buff_name: String, duration: float) -> void:
 	_on_tactical_bark("Pacto de Necroth", "🔥 Rito Consumado: [%s] ativo por %.0fs!" % [buff_name, duration])

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c837482810a91"]
+
+[ext_resource type="Script" path="res://scratch/test_soul_harvest_to_grimoire.gd" id="1_grimoire"]
+
+[node name="TestSoulHarvest" type="Node2D"]
+script = ExtResource("1_grimoire")

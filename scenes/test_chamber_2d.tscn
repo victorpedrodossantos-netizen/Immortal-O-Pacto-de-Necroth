@@ -13,19 +13,19 @@
 [ext_resource type="PackedScene" path="res://ui/components/ability_hotbar.tscn" id="11_ability_hotbar"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
-size = Vector2(3800, 80)
+size = Vector2(7600, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
-size = Vector2(80, 2800)
+size = Vector2(80, 5600)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pillar"]
-size = Vector2(90, 90)
+size = Vector2(140, 140)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_swamp"]
-size = Vector2(1000, 700)
+size = Vector2(2400, 1800)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_runes"]
-radius = 380.0
+radius = 480.0
 
 [node name="TestChamber2D" type="Node2D"]
 script = ExtResource("1_chamber_script")
@@ -46,10 +46,10 @@ script = ExtResource("4_macro_script")
 script = ExtResource("6_biomespawner_script")
 
 [node name="BackgroundFloor" type="ColorRect" parent="."]
-offset_left = -2200.0
-offset_top = -1600.0
-offset_right = 2200.0
-offset_bottom = 1600.0
+offset_left = -4000.0
+offset_top = -3000.0
+offset_right = 4000.0
+offset_bottom = 3000.0
 color = Color(0.045, 0.05, 0.06, 1)
 
 [node name="ArenaWalls" type="StaticBody2D" parent="."]
@@ -57,36 +57,36 @@ collision_layer = 1
 collision_mask = 7
 
 [node name="NorthWallCol" type="CollisionShape2D" parent="ArenaWalls"]
-position = Vector2(0, -1400)
+position = Vector2(0, -2800)
 shape = SubResource("RectangleShape2D_wall_h")
 
 [node name="NorthWallVis" type="Polygon2D" parent="ArenaWalls"]
 color = Color(0.12, 0.14, 0.17, 1)
-polygon = PackedVector2Array(-1900, -1440, 1900, -1440, 1900, -1360, -1900, -1360)
+polygon = PackedVector2Array(-3800, -2840, 3800, -2840, 3800, -2760, -3800, -2760)
 
 [node name="SouthWallCol" type="CollisionShape2D" parent="ArenaWalls"]
-position = Vector2(0, 1400)
+position = Vector2(0, 2800)
 shape = SubResource("RectangleShape2D_wall_h")
 
 [node name="SouthWallVis" type="Polygon2D" parent="ArenaWalls"]
 color = Color(0.12, 0.14, 0.17, 1)
-polygon = PackedVector2Array(-1900, 1360, 1900, 1360, 1900, 1440, -1900, 1440)
+polygon = PackedVector2Array(-3800, 2760, 3800, 2760, 3800, 2840, -3800, 2840)
 
 [node name="WestWallCol" type="CollisionShape2D" parent="ArenaWalls"]
-position = Vector2(-1900, 0)
+position = Vector2(-3800, 0)
 shape = SubResource("RectangleShape2D_wall_v")
 
 [node name="WestWallVis" type="Polygon2D" parent="ArenaWalls"]
 color = Color(0.12, 0.14, 0.17, 1)
-polygon = PackedVector2Array(-1940, -1400, -1860, -1400, -1860, 1400, -1940, 1400)
+polygon = PackedVector2Array(-3840, -2800, -3760, -2800, -3760, 2800, -3840, 2800)
 
 [node name="EastWallCol" type="CollisionShape2D" parent="ArenaWalls"]
-position = Vector2(1900, 0)
+position = Vector2(3800, 0)
 shape = SubResource("RectangleShape2D_wall_v")
 
 [node name="EastWallVis" type="Polygon2D" parent="ArenaWalls"]
 color = Color(0.12, 0.14, 0.17, 1)
-polygon = PackedVector2Array(1860, -1400, 1940, -1400, 1940, 1400, 1860, 1400)
+polygon = PackedVector2Array(3760, -2800, 3840, -2800, 3840, 2800, 3760, 2800)
 
 [node name="PillarNW" type="StaticBody2D" parent="."]
 position = Vector2(-550, -450)
@@ -137,7 +137,7 @@ color = Color(0.18, 0.2, 0.24, 1)
 polygon = PackedVector2Array(-45, -45, 45, -45, 45, 45, -45, 45)
 
 [node name="SwampZone" type="Area2D" parent="."]
-position = Vector2(-950, 400)
+position = Vector2(-2200, 1400)
 collision_layer = 0
 collision_mask = 7
 script = ExtResource("7_terrain_script")
@@ -147,41 +147,87 @@ shape = SubResource("RectangleShape2D_swamp")
 
 [node name="VisualSwamp" type="Polygon2D" parent="SwampZone"]
 color = Color(0.06, 0.16, 0.08, 0.55)
-polygon = PackedVector2Array(-500, -350, 500, -350, 500, 350, -500, 350)
+polygon = PackedVector2Array(-1200, -900, 1200, -900, 1200, 900, -1200, 900)
 
 [node name="SwampLabel" type="Label" parent="SwampZone"]
-offset_left = -160.0
+offset_left = -220.0
 offset_top = -14.0
-offset_right = 160.0
+offset_right = 220.0
 offset_bottom = 14.0
 theme_override_colors/font_color = Color(0.4, 0.75, 0.35, 0.85)
-theme_override_font_sizes/font_size = 15
-text = "PÂNTANO DO LIMO (-40% VEL)"
+theme_override_font_sizes/font_size = 18
+text = "PÂNTANO DOS GHÛLS (-40% VEL)"
+horizontal_alignment = 1
+
+[node name="OlogZone" type="Area2D" parent="."]
+position = Vector2(-2200, -1400)
+collision_layer = 0
+collision_mask = 7
+script = ExtResource("7_terrain_script")
+
+[node name="OlogShape" type="CollisionShape2D" parent="OlogZone"]
+shape = SubResource("RectangleShape2D_swamp")
+
+[node name="VisualOlog" type="Polygon2D" parent="OlogZone"]
+color = Color(0.14, 0.11, 0.09, 0.5)
+polygon = PackedVector2Array(-1200, -900, 1200, -900, 1200, 900, -1200, 900)
+
+[node name="OlogLabel" type="Label" parent="OlogZone"]
+offset_left = -220.0
+offset_top = -14.0
+offset_right = 220.0
+offset_bottom = 14.0
+theme_override_colors/font_color = Color(0.85, 0.55, 0.3, 0.85)
+theme_override_font_sizes/font_size = 18
+text = "CUME DOS TITÃS & OLOGS"
+horizontal_alignment = 1
+
+[node name="OrcCampZone" type="Area2D" parent="."]
+position = Vector2(2200, 0)
+collision_layer = 0
+collision_mask = 7
+script = ExtResource("7_terrain_script")
+
+[node name="OrcCampShape" type="CollisionShape2D" parent="OrcCampZone"]
+shape = SubResource("RectangleShape2D_swamp")
+
+[node name="VisualOrcCamp" type="Polygon2D" parent="OrcCampZone"]
+color = Color(0.18, 0.08, 0.08, 0.5)
+polygon = PackedVector2Array(-1200, -900, 1200, -900, 1200, 900, -1200, 900)
+
+[node name="OrcCampLabel" type="Label" parent="OrcCampZone"]
+offset_left = -260.0
+offset_top = -14.0
+offset_right = 260.0
+offset_bottom = 14.0
+theme_override_colors/font_color = Color(0.9, 0.35, 0.35, 0.85)
+theme_override_font_sizes/font_size = 18
+text = "BASTIÃO DOS FENDIDOS DE FERRO"
 horizontal_alignment = 1
 
 [node name="RunicZone" type="Area2D" parent="."]
-position = Vector2(950, -400)
+position = Vector2(0, 0)
 collision_layer = 0
 collision_mask = 1
 script = ExtResource("7_terrain_script")
 zone_type = 1
-zone_name = "Ruínas Rúnicas do Vazio"
+zone_name = "Santuário Ritual de Necroth"
 
 [node name="RuneShape" type="CollisionShape2D" parent="RunicZone"]
 shape = SubResource("CircleShape2D_runes")
 
 [node name="VisualRunes" type="Polygon2D" parent="RunicZone"]
 color = Color(0.05, 0.28, 0.22, 0.45)
-polygon = PackedVector2Array(0, -380, 268, -268, 380, 0, 268, 268, 0, 380, -268, 268, -380, 0, -268, -268)
+polygon = PackedVector2Array(0, -480, 339, -339, 480, 0, 339, 339, 0, 480, -339, 339, -480, 0, -339, -339)
 
 [node name="RuneLabel" type="Label" parent="RunicZone"]
-offset_left = -160.0
+offset_left = -200.0
 offset_top = -14.0
-offset_right = 160.0
+offset_right = 200.0
 offset_bottom = 14.0
 theme_override_colors/font_color = Color(0.145, 0.886, 0.596, 0.85)
 theme_override_font_sizes/font_size = 15
-text = "RUÍNAS RÚNICAS (+ÉTER & CEIFA)"
+text = "SANTUÁRIO DE NECROTH"
 horizontal_alignment = 1
 
 [node name="CenterRitualCircle" type="Polygon2D" parent="."]
@@ -301,45 +347,7 @@ theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
 theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 
-[node name="Actions" type="VBoxContainer" parent="CanvasLayerUI/HUD/Margin/TopRow"]
-layout_mode = 2
-theme_override_constants/separation = 8
 
-[node name="BtnOpenGrimoire" type="Button" parent="CanvasLayerUI/HUD/Margin/TopRow/Actions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(240, 34)
-layout_mode = 2
-text = "📜  TABULEIRO DE ALMAS (TAB)"
-
-[node name="BtnToggleCycle" type="Button" parent="CanvasLayerUI/HUD/Margin/TopRow/Actions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(240, 34)
-layout_mode = 2
-text = "🌙 / ☀️  ALTERNAR CICLO (T)"
-
-[node name="BtnSpawnBoss" type="Button" parent="CanvasLayerUI/HUD/Margin/TopRow/Actions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(240, 34)
-layout_mode = 2
-text = "💀  DESAFIAR AVATAR (CHEFE)"
-
-[node name="BtnSpawnOlog" type="Button" parent="CanvasLayerUI/HUD/Margin/TopRow/Actions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(240, 34)
-layout_mode = 2
-text = "🗿  DESAFIAR OLOG DE PEDRA (O)"
-
-[node name="BtnRespawnEnemies" type="Button" parent="CanvasLayerUI/HUD/Margin/TopRow/Actions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(240, 34)
-layout_mode = 2
-text = "🔄  RENOVAR ESQUADRÃO (R)"
-
-[node name="BtnBack" type="Button" parent="CanvasLayerUI/HUD/Margin/TopRow/Actions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(240, 34)
-layout_mode = 2
-text = "⬅  RETORNAR AO VÉU"
 
 [node name="AbilityHotbar" parent="CanvasLayerUI/HUD/Margin" instance=ExtResource("11_ability_hotbar")]
 unique_name_in_owner = true

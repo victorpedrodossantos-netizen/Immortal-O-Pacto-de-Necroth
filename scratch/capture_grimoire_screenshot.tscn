@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://grimoirescreenshot001"]
+
+[ext_resource type="Script" path="res://scratch/capture_grimoire_screenshot.gd" id="1_shot_script"]
+
+[node name="CaptureGrimoireScreenshot" type="Node2D"]
+script = ExtResource("1_shot_script")

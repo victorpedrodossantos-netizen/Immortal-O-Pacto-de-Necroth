@@ -172,6 +172,8 @@ func take_damage(amount: float, source: Node = null) -> float:
 func die(killer: Node = null) -> void:
 	var drop: SoulDrop2D = SOUL_DROP_SCENE.instantiate()
 	drop.global_position = global_position
+	drop.source_enemy_name = "Pútrido do Enxame"
+	drop.source_faction = faction
 	var cur_scene: Node = get_tree().current_scene
 	if cur_scene:
 		cur_scene.call_deferred("add_child", drop)

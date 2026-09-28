@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://abilityhotbar001"]
+[gd_scene load_steps=14 format=3 uid="uid://abilityhotbar001"]
 
 [ext_resource type="Script" path="res://ui/components/ability_hotbar.gd" id="1_hotbar_script"]
 [ext_resource type="PackedScene" path="res://ui/components/hotbar_slot.tscn" id="2_slot_scene"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" path="res://assets/ui/hotbar/skill_carrasco.jpg" id="7_carrasco_tex"]
 [ext_resource type="Texture2D" path="res://assets/ui/hotbar/skill_focus.jpg" id="8_focus_tex"]
 [ext_resource type="Texture2D" path="res://assets/ui/hotbar/skill_grimoire.jpg" id="9_grimoire_tex"]
+[ext_resource type="Texture2D" path="res://assets/ui/hotbar/skill_squad1.jpg" id="10_squad1_tex"]
+[ext_resource type="Texture2D" path="res://assets/ui/hotbar/skill_squad2.jpg" id="11_squad2_tex"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hotbar_bg"]
 bg_color = Color(0.03, 0.04, 0.06, 0.92)
@@ -25,15 +27,15 @@ shadow_color = Color(0, 0, 0, 0.7)
 shadow_size = 8
 
 [node name="AbilityHotbar" type="PanelContainer"]
-custom_minimum_size = Vector2(680, 118)
+custom_minimum_size = Vector2(860, 118)
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -340.0
+offset_left = -430.0
 offset_top = -128.0
-offset_right = 340.0
+offset_right = 430.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 0
@@ -103,6 +105,20 @@ skill_icon = ExtResource("8_focus_tex")
 [node name="SlotGrimoire" parent="Margin/SlotsHBox" instance=ExtResource("2_slot_scene")]
 unique_name_in_owner = true
 layout_mode = 2
-ability_name = "Grimório"
+ability_name = "Grimório de Invocações"
 shortcut_key = "7"
 skill_icon = ExtResource("9_grimoire_tex")
+
+[node name="SlotSquad1" parent="Margin/SlotsHBox" instance=ExtResource("2_slot_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+ability_name = "Invocar Grupo 1"
+shortcut_key = "8"
+skill_icon = ExtResource("10_squad1_tex")
+
+[node name="SlotSquad2" parent="Margin/SlotsHBox" instance=ExtResource("2_slot_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+ability_name = "Invocar Grupo 2"
+shortcut_key = "9"
+skill_icon = ExtResource("11_squad2_tex")
