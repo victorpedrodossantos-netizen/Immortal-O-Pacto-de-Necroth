@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://avatarboss01"]
+
+[ext_resource type="Script" path="res://entities/characters/bosses/avatar_predador.gd" id="1_boss_script"]
+[ext_resource type="Script" path="res://systems/boss_ai/micro_predator_brain.gd" id="2_micro_script"]
+[ext_resource type="Script" path="res://systems/ai/perception/perception_sensor_2d.gd" id="3_sensor_script"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_boss"]
+radius = 28.0
+height = 84.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sensor"]
+radius = 520.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_slam"]
+radius = 140.0
+
+[node name="AvatarPredador" type="CharacterBody2D" groups=["bosses", "enemies"]]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_boss_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_boss")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="RageAura" type="Polygon2D" parent="Visual"]
+visible = false
+color = Color(0.85, 0.15, 0.15, 0.35)
+polygon = PackedVector2Array(-48, -50, 48, -50, 56, 0, 48, 50, -48, 50, -56, 0)
+
+[node name="MassiveTorso" type="Polygon2D" parent="Visual"]
+color = Color(0.24, 0.18, 0.14, 1)
+polygon = PackedVector2Array(-32, -35, 32, -35, 26, 40, -26, 40)
+
+[node name="SpikedPauldrons" type="Polygon2D" parent="Visual"]
+color = Color(0.45, 0.42, 0.4, 1)
+polygon = PackedVector2Array(-38, -48, -20, -32, -18, -18, -42, -22)
+
+[node name="SpikedPauldronsRight" type="Polygon2D" parent="Visual"]
+color = Color(0.45, 0.42, 0.4, 1)
+polygon = PackedVector2Array(38, -48, 20, -32, 18, -18, 42, -22)
+
+[node name="SkullMask" type="Polygon2D" parent="Visual"]
+color = Color(0.78, 0.76, 0.72, 1)
+polygon = PackedVector2Array(-18, -52, 18, -52, 14, -28, 0, -20, -14, -28)
+
+[node name="GlowingRedEyes" type="Polygon2D" parent="Visual"]
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(-10, -42, -4, -42, -6, -38, 4, -42, 10, -42, 6, -38)
+
+[node name="WarCleaver" type="Node2D" parent="Visual"]
+position = Vector2(24, 0)
+
+[node name="Blade" type="Polygon2D" parent="Visual/WarCleaver"]
+color = Color(0.65, 0.68, 0.72, 1)
+polygon = PackedVector2Array(0, -60, 24, -50, 18, 20, 0, 10)
+
+[node name="MicroPredatorBrain" type="Node" parent="."]
+script = ExtResource("2_micro_script")
+
+[node name="PerceptionSensor2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("3_sensor_script")
+
+[node name="SensorCollision" type="CollisionShape2D" parent="PerceptionSensor2D"]
+shape = SubResource("CircleShape2D_sensor")
+
+[node name="RayCast2D" type="RayCast2D" parent="PerceptionSensor2D"]
+
+[node name="GroundSlamArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 5
+
+[node name="SlamCollision" type="CollisionShape2D" parent="GroundSlamArea"]
+shape = SubResource("CircleShape2D_slam")

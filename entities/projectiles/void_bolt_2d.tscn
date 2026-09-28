@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://voidbolt2d01"]
+
+[ext_resource type="Script" path="res://entities/projectiles/void_bolt_2d.gd" id="1_bolt_script"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bolt"]
+radius = 6.0
+height = 28.0
+
+[node name="VoidBolt2D" type="Area2D"]
+collision_layer = 16
+collision_mask = 3
+script = ExtResource("1_bolt_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_bolt")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Glow" type="Polygon2D" parent="Visual"]
+color = Color(0.145, 0.886, 0.596, 0.35)
+polygon = PackedVector2Array(-18, -10, 18, 0, -18, 10, -8, 0)
+
+[node name="Core" type="Polygon2D" parent="Visual"]
+color = Color(0.85, 1, 0.95, 1)
+polygon = PackedVector2Array(-14, -4, 16, 0, -14, 4, -8, 0)

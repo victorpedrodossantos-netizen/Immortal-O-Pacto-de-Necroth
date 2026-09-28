@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dummy01"]
+
+[ext_resource type="Script" path="res://entities/characters/enemies/training_dummy.gd" id="1_dummy_script"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dummy"]
+radius = 20.0
+height = 58.0
+
+[node name="TrainingDummy" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_dummy_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_dummy")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Armor" type="Polygon2D" parent="Visual"]
+color = Color(0.35, 0.28, 0.22, 1)
+polygon = PackedVector2Array(-20, -25, 20, -25, 16, 25, -16, 25)
+
+[node name="IronChestplate" type="Polygon2D" parent="Visual"]
+color = Color(0.5, 0.52, 0.55, 1)
+polygon = PackedVector2Array(-14, -20, 14, -20, 10, 10, -10, 10)
+
+[node name="Helmet" type="Polygon2D" parent="Visual"]
+color = Color(0.25, 0.26, 0.28, 1)
+polygon = PackedVector2Array(-12, -38, 12, -38, 15, -22, -15, -22)
+
+[node name="EyesRed" type="Polygon2D" parent="Visual"]
+color = Color(0.9, 0.15, 0.15, 1)
+polygon = PackedVector2Array(-8, -30, -4, -30, -5, -27, 4, -30, 8, -30, 5, -27)

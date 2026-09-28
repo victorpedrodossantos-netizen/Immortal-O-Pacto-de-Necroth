@@ -1,0 +1,73 @@
+[gd_scene load_steps=8 format=3 uid="uid://olog001"]
+
+[ext_resource type="Script" path="res://entities/characters/enemies/olog_tita_enemy.gd" id="1_olog_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ologs/sprite_action.jpg" id="2_olog_tex"]
+[ext_resource type="Script" path="res://systems/ai/perception/perception_sensor_2d.gd" id="3_sensor_script"]
+[ext_resource type="Script" path="res://systems/ai/perception/alert_indicator_2d.gd" id="4_indicator_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_olog"]
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_slam"]
+radius = 160.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sensor"]
+radius = 420.0
+
+[node name="OlogTitaEnemy" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_olog_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_olog")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Shadow" type="Polygon2D" parent="Visual"]
+position = Vector2(0, 32)
+scale = Vector2(1.8, 0.45)
+color = Color(0, 0, 0, 0.55)
+polygon = PackedVector2Array(-28, 0, -20, -12, 0, -16, 20, -12, 28, 0, 20, 12, 0, 16, -20, 12)
+
+[node name="CharacterSprite" type="Sprite2D" parent="Visual"]
+position = Vector2(0, -16)
+scale = Vector2(0.115, 0.115)
+texture = ExtResource("2_olog_tex")
+
+[node name="ClubPivot" type="Node2D" parent="Visual"]
+position = Vector2(26, 4)
+
+[node name="ShockwaveArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 5
+
+[node name="ShockwaveShape" type="CollisionShape2D" parent="ShockwaveArea"]
+shape = SubResource("CircleShape2D_slam")
+
+[node name="PerceptionSensor2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("3_sensor_script")
+vision_range = 420.0
+field_of_view_deg = 110.0
+immediate_proximity_radius = 90.0
+leash_distance = 620.0
+hearing_range = 280.0
+
+[node name="SensorShape" type="CollisionShape2D" parent="PerceptionSensor2D"]
+shape = SubResource("CircleShape2D_sensor")
+
+[node name="RayCast2D" type="RayCast2D" parent="PerceptionSensor2D"]
+
+[node name="AlertIndicator2D" type="Node2D" parent="."]
+position = Vector2(0, -20)
+script = ExtResource("4_indicator_script")
+
+[node name="Label" type="Label" parent="AlertIndicator2D"]
+offset_left = -20.0
+offset_top = -60.0
+offset_right = 20.0
+offset_bottom = -37.0
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1

@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://genericservant001"]
+
+[ext_resource type="Script" path="res://entities/characters/servants/generic_servant_soldier.gd" id="1_servant_script"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_servant"]
+radius = 14.0
+height = 42.0
+
+[node name="GenericServantSoldier" type="CharacterBody2D" groups=["servants"]]
+collision_layer = 1
+collision_mask = 7
+script = ExtResource("1_servant_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_servant")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Aura" type="Polygon2D" parent="Visual"]
+modulate = Color(0.145, 0.886, 0.596, 0.5)
+polygon = PackedVector2Array(0, -32, 18, -20, 22, 6, 14, 26, 0, 32, -14, 26, -22, 6, -18, -20)
+
+[node name="SpectralBody" type="Polygon2D" parent="Visual"]
+color = Color(0.15, 0.22, 0.28, 0.9)
+polygon = PackedVector2Array(-12, -20, 12, -20, 14, 20, -14, 20)
+
+[node name="SpectralHead" type="Polygon2D" parent="Visual"]
+color = Color(0.7, 0.9, 0.85, 0.95)
+polygon = PackedVector2Array(-8, -34, 8, -34, 6, -20, -6, -20)
+
+[node name="Weapon" type="Node2D" parent="Visual"]
+position = Vector2(12, 0)
+
+[node name="Blade" type="Polygon2D" parent="Visual/Weapon"]
+color = Color(0.145, 0.886, 0.596, 0.9)
+polygon = PackedVector2Array(-2, 10, 2, 10, 3, -24, 0, -30, -3, -24)
+
+[node name="NameLabel" type="Label" parent="Visual"]
+offset_left = -70.0
+offset_top = -52.0
+offset_right = 70.0
+offset_bottom = -34.0
+theme_override_colors/font_color = Color(0.4, 1.0, 0.8, 0.9)
+theme_override_font_sizes/font_size = 10
+text = "Soldado Espectral"
+horizontal_alignment = 1

@@ -1,0 +1,127 @@
+[gd_scene format=3 uid="uid://dmmainmenu01"]
+
+[ext_resource type="Script" path="res://ui/screens/main_menu.gd" id="1_menu_script"]
+[ext_resource type="PackedScene" path="res://ui/components/dimension_selector.tscn" id="2_dim_selector"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.043, 0.047, 0.058, 1)
+
+[node name="Vignette" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.015, 0.06, 0.04, 0.25)
+
+[node name="LayoutMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 80
+
+[node name="HBox" type="HBoxContainer" parent="LayoutMargin"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="LeftCol" type="VBoxContainer" parent="LayoutMargin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 24
+
+[node name="TitleGroup" type="VBoxContainer" parent="LayoutMargin/HBox/LeftCol"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="GameTitle" type="Label" parent="LayoutMargin/HBox/LeftCol/TitleGroup"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.95, 0.94, 1)
+theme_override_font_sizes/font_size = 54
+text = "IMMORTAL"
+
+[node name="Subtitle" type="Label" parent="LayoutMargin/HBox/LeftCol/TitleGroup"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.145, 0.886, 0.596, 1)
+theme_override_font_sizes/font_size = 24
+text = "O PACTO DE NECROTH"
+
+[node name="Tagline" type="Label" parent="LayoutMargin/HBox/LeftCol/TitleGroup"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.58, 0.56, 0.8)
+theme_override_font_sizes/font_size = 14
+text = "RPG de Ação Tático • Ecossistema de Almas & Inteligência Adaptativa"
+
+[node name="HSeparator" type="HSeparator" parent="LayoutMargin/HBox/LeftCol"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MenuButtons" type="VBoxContainer" parent="LayoutMargin/HBox/LeftCol"]
+layout_mode = 2
+custom_minimum_size = Vector2(320, 0)
+size_flags_horizontal = 0
+theme_override_constants/separation = 12
+
+[node name="BtnPlay" type="Button" parent="LayoutMargin/HBox/LeftCol/MenuButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "⚔  INICIAR RITO (ARENA 2D)"
+
+[node name="BtnCodex" type="Button" parent="LayoutMargin/HBox/LeftCol/MenuButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "📖  CÓDICE DAS CINZAS"
+
+[node name="BtnInfamy" type="Button" parent="LayoutMargin/HBox/LeftCol/MenuButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "👑  TÁBUA DA INFÂMIA"
+
+[node name="BtnSettings" type="Button" parent="LayoutMargin/HBox/LeftCol/MenuButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "⚙  CONFIGURAÇÕES DOS SENTIDOS"
+
+[node name="BtnQuit" type="Button" parent="LayoutMargin/HBox/LeftCol/MenuButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "🚪  ABANDONAR O VÉU"
+
+[node name="RightCol" type="VBoxContainer" parent="LayoutMargin/HBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="DimensionSelector" parent="LayoutMargin/HBox/RightCol" instance=ExtResource("2_dim_selector")]
+layout_mode = 2
+
+[node name="InfoDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = "Registro do Véu"
+size = Vector2i(420, 160)
+unresizable = true

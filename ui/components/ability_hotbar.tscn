@@ -1,0 +1,108 @@
+[gd_scene load_steps=12 format=3 uid="uid://abilityhotbar001"]
+
+[ext_resource type="Script" path="res://ui/components/ability_hotbar.gd" id="1_hotbar_script"]
+[ext_resource type="PackedScene" path="res://ui/components/hotbar_slot.tscn" id="2_slot_scene"]
+[ext_resource type="Texture2D" path="res://assets/ui/hotbar/skill_ceifa.jpg" id="3_ceifa_tex"]
+[ext_resource type="Texture2D" path="res://assets/ui/hotbar/skill_garras.jpg" id="4_garras_tex"]
+[ext_resource type="Texture2D" path="res://assets/ui/hotbar/skill_sifao.jpg" id="5_sifao_tex"]
+[ext_resource type="Texture2D" path="res://assets/ui/hotbar/skill_dash.jpg" id="6_dash_tex"]
+[ext_resource type="Texture2D" path="res://assets/ui/hotbar/skill_carrasco.jpg" id="7_carrasco_tex"]
+[ext_resource type="Texture2D" path="res://assets/ui/hotbar/skill_focus.jpg" id="8_focus_tex"]
+[ext_resource type="Texture2D" path="res://assets/ui/hotbar/skill_grimoire.jpg" id="9_grimoire_tex"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hotbar_bg"]
+bg_color = Color(0.03, 0.04, 0.06, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.145, 0.886, 0.596, 0.45)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 8
+
+[node name="AbilityHotbar" type="PanelContainer"]
+custom_minimum_size = Vector2(680, 118)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -340.0
+offset_top = -128.0
+offset_right = 340.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hotbar_bg")
+script = ExtResource("1_hotbar_script")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="SlotsHBox" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="SlotCeifa" parent="Margin/SlotsHBox" instance=ExtResource("2_slot_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+ability_name = "Ceifa de Éter"
+shortcut_key = "1"
+skill_icon = ExtResource("3_ceifa_tex")
+
+[node name="SlotGarras" parent="Margin/SlotsHBox" instance=ExtResource("2_slot_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+ability_name = "Garras do Limbo"
+shortcut_key = "2"
+skill_icon = ExtResource("4_garras_tex")
+ether_cost = 25.0
+
+[node name="SlotSifao" parent="Margin/SlotsHBox" instance=ExtResource("2_slot_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+ability_name = "Sifão da Morte"
+shortcut_key = "3"
+skill_icon = ExtResource("5_sifao_tex")
+ether_cost = 12.0
+
+[node name="SlotDash" parent="Margin/SlotsHBox" instance=ExtResource("2_slot_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+ability_name = "Passo Umbral"
+shortcut_key = "4"
+skill_icon = ExtResource("6_dash_tex")
+
+[node name="SlotCarrasco" parent="Margin/SlotsHBox" instance=ExtResource("2_slot_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+ability_name = "Carrasco"
+shortcut_key = "5"
+skill_icon = ExtResource("7_carrasco_tex")
+ether_cost = 40.0
+
+[node name="SlotFocus" parent="Margin/SlotsHBox" instance=ExtResource("2_slot_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+ability_name = "Ordem de Foco"
+shortcut_key = "6"
+skill_icon = ExtResource("8_focus_tex")
+
+[node name="SlotGrimoire" parent="Margin/SlotsHBox" instance=ExtResource("2_slot_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+ability_name = "Grimório"
+shortcut_key = "7"
+skill_icon = ExtResource("9_grimoire_tex")

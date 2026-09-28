@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://carrasco01"]
+
+[ext_resource type="Script" path="res://entities/characters/servants/carrasco_do_limbo/carrasco_do_limbo.gd" id="1_carrasco_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cavaleiro_da_morte/sprite_action.jpg" id="2_carrasco_tex"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 24.0
+height = 68.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cleave"]
+radius = 85.0
+
+[node name="CarrascoDoLimbo" type="CharacterBody2D" groups=["allies", "servants"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_carrasco_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_body")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Aura" type="Polygon2D" parent="Visual"]
+color = Color(0.08, 0.45, 0.32, 0.3)
+polygon = PackedVector2Array(-42, -50, 42, -50, 52, 0, 42, 50, -42, 50, -52, 0)
+
+[node name="ShadowCircle" type="Polygon2D" parent="Visual"]
+position = Vector2(0, 36)
+scale = Vector2(1.5, 0.4)
+color = Color(0, 0, 0, 0.5)
+polygon = PackedVector2Array(-24, 0, -18, -12, 0, -16, 18, -12, 24, 0, 18, 12, 0, 16, -18, 12)
+
+[node name="CharacterSprite" type="Sprite2D" parent="Visual"]
+position = Vector2(0, -10)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_carrasco_tex")
+
+[node name="ScythePivot" type="Node2D" parent="Visual"]
+
+[node name="CleaveArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CleaveArea"]
+shape = SubResource("CircleShape2D_cleave")

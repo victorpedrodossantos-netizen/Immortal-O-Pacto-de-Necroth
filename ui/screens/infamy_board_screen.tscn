@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://infamyboardscreen01"]
+
+[ext_resource type="Script" path="res://ui/screens/infamy_board_screen.gd" id="1_infamy_script"]
+
+[node name="InfamyBoardScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_infamy_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.043, 0.047, 0.058, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 48
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="HeaderHBox" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="TitleGroup" type="VBoxContainer" parent="Margin/VBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/HeaderHBox/TitleGroup"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 32
+text = "👑  TÁBUA DA INFÂMIA • ASCENSÃO DE SANGUE"
+
+[node name="Subtitle" type="Label" parent="Margin/VBox/HeaderHBox/TitleGroup"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.58, 0.56, 0.8)
+theme_override_font_sizes/font_size = 14
+text = "Hierarquia dos Comandantes e Avatares dos Clãs de Ferro"
+
+[node name="BtnBack" type="Button" parent="Margin/VBox/HeaderHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 42)
+layout_mode = 2
+text = "⬅  RETORNAR AO VÉU"
+
+[node name="HSeparator" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="WarlordsContainer" type="VBoxContainer" parent="Margin/VBox/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12

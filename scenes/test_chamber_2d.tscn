@@ -1,0 +1,352 @@
+[gd_scene format=3 uid="uid://testchamber01"]
+
+[ext_resource type="Script" path="res://scenes/test_chamber_2d.gd" id="1_chamber_script"]
+[ext_resource type="PackedScene" path="res://entities/characters/necroth/necroth.tscn" id="2_necroth_scene"]
+[ext_resource type="Script" path="res://systems/ai/tactics/tactical_director_2d.gd" id="3_director_script"]
+[ext_resource type="Script" path="res://systems/boss_ai/macro_predator_director.gd" id="4_macro_script"]
+[ext_resource type="Script" path="res://systems/environment/day_night_cycle_2d.gd" id="5_daynight_script"]
+[ext_resource type="Script" path="res://systems/environment/biome_spawner_2d.gd" id="6_biomespawner_script"]
+[ext_resource type="Script" path="res://systems/environment/terrain_zone_2d.gd" id="7_terrain_script"]
+[ext_resource type="Script" path="res://systems/narrative/battle_dialogue_system.gd" id="8_dialogue_script"]
+[ext_resource type="PackedScene" path="res://ui/screens/soul_grimoire_screen.tscn" id="9_soul_grimoire"]
+[ext_resource type="Texture2D" path="res://assets/portraits/necroth/portrait.jpg" id="10_necroth_portrait"]
+[ext_resource type="PackedScene" path="res://ui/components/ability_hotbar.tscn" id="11_ability_hotbar"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(3800, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(80, 2800)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pillar"]
+size = Vector2(90, 90)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_swamp"]
+size = Vector2(1000, 700)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_runes"]
+radius = 380.0
+
+[node name="TestChamber2D" type="Node2D"]
+script = ExtResource("1_chamber_script")
+
+[node name="BattleDialogueSystem" type="Node" parent="."]
+script = ExtResource("8_dialogue_script")
+
+[node name="DayNightCycle2D" type="CanvasModulate" parent="."]
+script = ExtResource("5_daynight_script")
+
+[node name="TacticalDirector2D" type="Node2D" parent="." groups=["tactical_directors"]]
+script = ExtResource("3_director_script")
+
+[node name="MacroPredatorDirector" type="Node" parent="." groups=["macro_directors"]]
+script = ExtResource("4_macro_script")
+
+[node name="BiomeSpawner2D" type="Node2D" parent="."]
+script = ExtResource("6_biomespawner_script")
+
+[node name="BackgroundFloor" type="ColorRect" parent="."]
+offset_left = -2200.0
+offset_top = -1600.0
+offset_right = 2200.0
+offset_bottom = 1600.0
+color = Color(0.045, 0.05, 0.06, 1)
+
+[node name="ArenaWalls" type="StaticBody2D" parent="."]
+collision_layer = 1
+collision_mask = 7
+
+[node name="NorthWallCol" type="CollisionShape2D" parent="ArenaWalls"]
+position = Vector2(0, -1400)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="NorthWallVis" type="Polygon2D" parent="ArenaWalls"]
+color = Color(0.12, 0.14, 0.17, 1)
+polygon = PackedVector2Array(-1900, -1440, 1900, -1440, 1900, -1360, -1900, -1360)
+
+[node name="SouthWallCol" type="CollisionShape2D" parent="ArenaWalls"]
+position = Vector2(0, 1400)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="SouthWallVis" type="Polygon2D" parent="ArenaWalls"]
+color = Color(0.12, 0.14, 0.17, 1)
+polygon = PackedVector2Array(-1900, 1360, 1900, 1360, 1900, 1440, -1900, 1440)
+
+[node name="WestWallCol" type="CollisionShape2D" parent="ArenaWalls"]
+position = Vector2(-1900, 0)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WestWallVis" type="Polygon2D" parent="ArenaWalls"]
+color = Color(0.12, 0.14, 0.17, 1)
+polygon = PackedVector2Array(-1940, -1400, -1860, -1400, -1860, 1400, -1940, 1400)
+
+[node name="EastWallCol" type="CollisionShape2D" parent="ArenaWalls"]
+position = Vector2(1900, 0)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="EastWallVis" type="Polygon2D" parent="ArenaWalls"]
+color = Color(0.12, 0.14, 0.17, 1)
+polygon = PackedVector2Array(1860, -1400, 1940, -1400, 1940, 1400, 1860, 1400)
+
+[node name="PillarNW" type="StaticBody2D" parent="."]
+position = Vector2(-550, -450)
+collision_layer = 1
+collision_mask = 7
+
+[node name="Col" type="CollisionShape2D" parent="PillarNW"]
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="Vis" type="Polygon2D" parent="PillarNW"]
+color = Color(0.18, 0.2, 0.24, 1)
+polygon = PackedVector2Array(-45, -45, 45, -45, 45, 45, -45, 45)
+
+[node name="PillarSW" type="StaticBody2D" parent="."]
+position = Vector2(-350, 450)
+collision_layer = 1
+collision_mask = 7
+
+[node name="Col" type="CollisionShape2D" parent="PillarSW"]
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="Vis" type="Polygon2D" parent="PillarSW"]
+color = Color(0.18, 0.2, 0.24, 1)
+polygon = PackedVector2Array(-45, -45, 45, -45, 45, 45, -45, 45)
+
+[node name="PillarNE" type="StaticBody2D" parent="."]
+position = Vector2(550, -450)
+collision_layer = 1
+collision_mask = 7
+
+[node name="Col" type="CollisionShape2D" parent="PillarNE"]
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="Vis" type="Polygon2D" parent="PillarNE"]
+color = Color(0.18, 0.2, 0.24, 1)
+polygon = PackedVector2Array(-45, -45, 45, -45, 45, 45, -45, 45)
+
+[node name="PillarSE" type="StaticBody2D" parent="."]
+position = Vector2(550, 450)
+collision_layer = 1
+collision_mask = 7
+
+[node name="Col" type="CollisionShape2D" parent="PillarSE"]
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="Vis" type="Polygon2D" parent="PillarSE"]
+color = Color(0.18, 0.2, 0.24, 1)
+polygon = PackedVector2Array(-45, -45, 45, -45, 45, 45, -45, 45)
+
+[node name="SwampZone" type="Area2D" parent="."]
+position = Vector2(-950, 400)
+collision_layer = 0
+collision_mask = 7
+script = ExtResource("7_terrain_script")
+
+[node name="SwampShape" type="CollisionShape2D" parent="SwampZone"]
+shape = SubResource("RectangleShape2D_swamp")
+
+[node name="VisualSwamp" type="Polygon2D" parent="SwampZone"]
+color = Color(0.06, 0.16, 0.08, 0.55)
+polygon = PackedVector2Array(-500, -350, 500, -350, 500, 350, -500, 350)
+
+[node name="SwampLabel" type="Label" parent="SwampZone"]
+offset_left = -160.0
+offset_top = -14.0
+offset_right = 160.0
+offset_bottom = 14.0
+theme_override_colors/font_color = Color(0.4, 0.75, 0.35, 0.85)
+theme_override_font_sizes/font_size = 15
+text = "PÂNTANO DO LIMO (-40% VEL)"
+horizontal_alignment = 1
+
+[node name="RunicZone" type="Area2D" parent="."]
+position = Vector2(950, -400)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("7_terrain_script")
+zone_type = 1
+zone_name = "Ruínas Rúnicas do Vazio"
+
+[node name="RuneShape" type="CollisionShape2D" parent="RunicZone"]
+shape = SubResource("CircleShape2D_runes")
+
+[node name="VisualRunes" type="Polygon2D" parent="RunicZone"]
+color = Color(0.05, 0.28, 0.22, 0.45)
+polygon = PackedVector2Array(0, -380, 268, -268, 380, 0, 268, 268, 0, 380, -268, 268, -380, 0, -268, -268)
+
+[node name="RuneLabel" type="Label" parent="RunicZone"]
+offset_left = -160.0
+offset_top = -14.0
+offset_right = 160.0
+offset_bottom = 14.0
+theme_override_colors/font_color = Color(0.145, 0.886, 0.596, 0.85)
+theme_override_font_sizes/font_size = 15
+text = "RUÍNAS RÚNICAS (+ÉTER & CEIFA)"
+horizontal_alignment = 1
+
+[node name="CenterRitualCircle" type="Polygon2D" parent="."]
+color = Color(0.08, 0.16, 0.13, 0.4)
+polygon = PackedVector2Array(0, -340, 240, -240, 340, 0, 240, 240, 0, 340, -240, 240, -340, 0, -240, -240)
+
+[node name="Necroth" parent="." instance=ExtResource("2_necroth_scene")]
+position = Vector2(0, 0)
+
+[node name="EnemyContainer" type="Node2D" parent="."]
+
+[node name="CanvasLayerUI" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="CanvasLayerUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Margin" type="MarginContainer" parent="CanvasLayerUI/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="TopRow" type="HBoxContainer" parent="CanvasLayerUI/HUD/Margin"]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="PortraitPanel" type="PanelContainer" parent="CanvasLayerUI/HUD/Margin/TopRow"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="NecrothPortrait" type="TextureRect" parent="CanvasLayerUI/HUD/Margin/TopRow/PortraitPanel"]
+layout_mode = 2
+texture = ExtResource("10_necroth_portrait")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NecrothStats" type="VBoxContainer" parent="CanvasLayerUI/HUD/Margin/TopRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(340, 0)
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="HpLabel" type="Label" parent="CanvasLayerUI/HUD/Margin/TopRow/NecrothStats"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.3, 0.3, 1)
+text = "Vida: 140 / 140"
+
+[node name="HpBar" type="ProgressBar" parent="CanvasLayerUI/HUD/Margin/TopRow/NecrothStats"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="EtherLabel" type="Label" parent="CanvasLayerUI/HUD/Margin/TopRow/NecrothStats"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.145, 0.886, 0.596, 1)
+text = "Éter Fúnebre: 120 / 120"
+
+[node name="EtherBar" type="ProgressBar" parent="CanvasLayerUI/HUD/Margin/TopRow/NecrothStats"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="SoulCountLabel" type="Label" parent="CanvasLayerUI/HUD/Margin/TopRow/NecrothStats"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.95, 0.9, 1)
+text = "Almas no Códice: 0"
+
+[node name="GuardianLabel" type="Label" parent="CanvasLayerUI/HUD/Margin/TopRow/NecrothStats"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "O Cavaleiro da Morte: [ NO VÉU (Pressione B ou Q) ]"
+
+[node name="CycleLabel" type="Label" parent="CanvasLayerUI/HUD/Margin/TopRow/NecrothStats"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+text = "Ciclo: DIA [PATRULHAS MARCIAIS] • 12:00"
+
+[node name="Spacer" type="Control" parent="CanvasLayerUI/HUD/Margin/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="CenterBarks" type="VBoxContainer" parent="CanvasLayerUI/HUD/Margin/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+
+[node name="TacticalBarkLabel" type="Label" parent="CanvasLayerUI/HUD/Margin/TopRow/CenterBarks"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+[node name="Actions" type="VBoxContainer" parent="CanvasLayerUI/HUD/Margin/TopRow"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnOpenGrimoire" type="Button" parent="CanvasLayerUI/HUD/Margin/TopRow/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 34)
+layout_mode = 2
+text = "📜  TABULEIRO DE ALMAS (TAB)"
+
+[node name="BtnToggleCycle" type="Button" parent="CanvasLayerUI/HUD/Margin/TopRow/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 34)
+layout_mode = 2
+text = "🌙 / ☀️  ALTERNAR CICLO (T)"
+
+[node name="BtnSpawnBoss" type="Button" parent="CanvasLayerUI/HUD/Margin/TopRow/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 34)
+layout_mode = 2
+text = "💀  DESAFIAR AVATAR (CHEFE)"
+
+[node name="BtnSpawnOlog" type="Button" parent="CanvasLayerUI/HUD/Margin/TopRow/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 34)
+layout_mode = 2
+text = "🗿  DESAFIAR OLOG DE PEDRA (O)"
+
+[node name="BtnRespawnEnemies" type="Button" parent="CanvasLayerUI/HUD/Margin/TopRow/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 34)
+layout_mode = 2
+text = "🔄  RENOVAR ESQUADRÃO (R)"
+
+[node name="BtnBack" type="Button" parent="CanvasLayerUI/HUD/Margin/TopRow/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 34)
+layout_mode = 2
+text = "⬅  RETORNAR AO VÉU"
+
+[node name="AbilityHotbar" parent="CanvasLayerUI/HUD/Margin" instance=ExtResource("11_ability_hotbar")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="SoulGrimoireScreen" parent="CanvasLayerUI" instance=ExtResource("9_soul_grimoire")]
+unique_name_in_owner = true
+visible = false

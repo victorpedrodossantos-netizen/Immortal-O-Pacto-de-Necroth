@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://putridolimo01"]
+
+[ext_resource type="Script" path="res://entities/characters/enemies/putrido_do_limo.gd" id="1_putrido_script"]
+[ext_resource type="Script" path="res://systems/ai/perception/perception_sensor_2d.gd" id="2_sensor_script"]
+[ext_resource type="Script" path="res://systems/ai/perception/alert_indicator_2d.gd" id="3_indicator_script"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_crawler"]
+radius = 16.0
+height = 48.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sensor"]
+radius = 420.0
+
+[node name="PutridoDoLimo" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_putrido_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_crawler")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="BodyHunched" type="Polygon2D" parent="Visual"]
+color = Color(0.18, 0.26, 0.16, 1)
+polygon = PackedVector2Array(-24, 0, -18, -16, 12, -14, 24, -4, 20, 10, -12, 12)
+
+[node name="SpinesDorsal" type="Polygon2D" parent="Visual"]
+color = Color(0.42, 0.48, 0.38, 1)
+polygon = PackedVector2Array(-14, -16, -10, -26, -6, -16, 0, -28, 4, -14)
+
+[node name="Head" type="Polygon2D" parent="Visual"]
+color = Color(0.14, 0.2, 0.12, 1)
+polygon = PackedVector2Array(18, -10, 32, -2, 28, 8, 16, 6)
+
+[node name="EyesBioluminescent" type="Polygon2D" parent="Visual"]
+color = Color(0.4, 1.0, 0.2, 1)
+polygon = PackedVector2Array(22, -6, 26, -6, 24, -2)
+
+[node name="FrontClaws" type="Polygon2D" parent="Visual"]
+color = Color(0.3, 0.38, 0.26, 1)
+polygon = PackedVector2Array(14, 8, 22, 18, 16, 18, 10, 10)
+
+[node name="PerceptionSensor2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("2_sensor_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PerceptionSensor2D"]
+shape = SubResource("CircleShape2D_sensor")
+
+[node name="RayCast2D" type="RayCast2D" parent="PerceptionSensor2D"]
+
+[node name="AlertIndicator2D" type="Node2D" parent="."]
+position = Vector2(0, -6)
+script = ExtResource("3_indicator_script")
+
+[node name="Label" type="Label" parent="AlertIndicator2D"]
+offset_left = -20.0
+offset_top = -42.0
+offset_right = 20.0
+offset_bottom = -18.0
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
